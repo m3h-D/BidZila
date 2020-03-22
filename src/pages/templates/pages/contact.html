@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+    <div class="col-6 col-md-4">
+        <br>
+        <h2>ارتباط با ما</h2>
+        <form class="text-right" method="POST">{% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-primary" type="submit">ارسال</button>
+        </form>
+    </div>
+    <div class="col-12 col-md-8">
+        <br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br />
+
+
+        <div class="row">
+            <div class="col-6 offset-3 text-right">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="list-home" role="tabpanel"
+                        aria-labelledby="list-home-list">+98 21-556-56 56
+                    </div>
+                    <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+                        دفتر مرکزی: تهران-کوچه 1-پلاک 1
+                    </div>
+                    <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
+                        <a class="text-right">
+                            دفتر مرکزی: تهران-کوچه 1-پلاک 2</a>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="col-3 ">
+                <div class="list-group" id="list-tab" role="tablist">
+                    <a class="list-group-item list-group-item-action active btn-outline-success" id="list-home-list"
+                        data-toggle="list" href="#list-home" role="tab" aria-controls="home">شماره تماس</a>
+                    <a class="list-group-item list-group-item-action btn-outline-danger" id="list-profile-list"
+                        data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">ادرس اول</a>
+                    <a class="list-group-item list-group-item-action btn-outline-primary" id="list-messages-list"
+                        data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">ادرس دوم</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+
+{% endblock %}

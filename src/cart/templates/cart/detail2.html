@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<br>
+<div class="col-md-12">
+    {% if messages %}
+    {% for message in messages %}
+
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <center>
+            {{ message }}
+        </center>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <!-- </div>
+<h2 class="text-right">سبد خرید شما</h2>
+<table class="cart">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Remove</th>
+            <th>Unit Price</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart %}
+        {% with product=item.product %}
+        <tr>
+            <td>
+                <a href="{{ product.get_absolute_url }}">
+                    <img src="{{ product.img.url }}" alt="">
+                </a>
+            </td>
+            <td>
+                {{ product.name }}
+            </td>
+            <td>
+                <form action="{% url 'cart:add_to_cart' product.id %}" method="post">{% csrf_token %}
+                    {{ item.update_quantity_form.quantity }}
+                    {{ item.update_quantity_form.update }}
+                    <input type="submit" value="Update">
+                </form>
+            </td>
+            <td><a href="{% url 'cart:remove_from_cart' product.id %}">Remove</a></td>
+            <td class="num">{{ item.price }}</td>
+            <td class="num">{{ item.total_price }}</td>
+        </tr>
+        {% endwith %}
+        {% endfor %}
+        <tr class="total">
+            <td>Total</td>
+            <td colspan="4"></td>
+            <td class="num">{{ cart.get_total_price }}</td>
+        </tr>
+    </tbody>
+</table>
+<p class="text-left">
+    <a href="{% url 'products:product_list' %}" class="btn btn-warning">Continiue Shopping</a>
+</p> -->
+
+
+
+
+
+
+    <br><br>
+    <h2 class="text-right">سبد خرید</h2>
+
+
+
+
+
+
+    {% if bid_cart.get_total_price == 0 %}
+    <p class=" text-right"><b>سبد شما خالی است</b></p>
+    <br>
+
+</div>
+<br>
+<br><br>
+{% else %}
+<br>
+<br>
+<div class="progress">
+    <div class="progress-bar progress-bar-striped bg-light" role="progressbar" style="width: 300%" aria-valuenow="10"
+        aria-valuemin="0" aria-valuemax="100"></div>
+    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 100%" aria-valuenow="10"
+        aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
+<br>
+<div class="row">
+    <div class="offset-md-4">
+        <label class="btn btn-warning rounded-pill" style="height: 40px; width: 300px">
+            <p><b>تعداد <span class="badge badge-light">{{ bid_cart|length }}</span> محصول در سبد شمااست</b></p>
+        </label>
+    </div>
+</div>
+<br>
+<table class="table table-hover text-dark table-light">
+    <thead class="bg-dark text-light text-center">
+        <tr>
+            <th scope="col">کد محصول</th>
+            <th scope="col">قیمت محصول</th>
+            <th scope="col">تعداد محصول</th>
+            <th scope="col">حذف محصول</th>
+            <th scope="col">نام محصول</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for item in bid_cart %}
+        {% with product=item.bid %}
+        <tr>
+            <th scope="row">{{ product.id }}</th>
+            <td> <button class="btn btn-secondary rounded-pill mt-3 ml-5">
+                    {{ product.price }}</button>
+            </td>
+            <td>
+                <center>
+                    <form class="form mt-3" action="{% url 'cart:add_to_bid_cart' product.id %}" method="post">
+                        {% csrf_token %}
+                        {{ item.update_quantity_form.quantity }}
+                        {{ item.update_quantity_form.update }}
+                        <input type="submit" value="تایید" class="btn btn-primary rounded-pill">
+                    </form>
+                </center>
+
+            </td>
+            <td><a class="btn btn-danger rounded-pill mt-3 ml-5"
+                    href="{% url 'cart:remove_from_bid_cart' product.id %}">حذف</a>
+            </td>
+
+            <td>
+                <center> <a class="text-dark mt-3" href="{{ product.get_absolute_url }}"> <button
+                            class="btn {% if product.rank == 'gold' %} btn-warning {% endif %} rounded-pill mt-3"
+                            style="{% if product.rank == 'silver' %} background-color: #C0C0C0 {%elif product.rank == 'bronze'%}background-color: #cd7f32{% endif %}">
+                            <b class="text">{{ product.title }}</b></button></a>
+                </center>
+            </td>
+            <td>
+
+                <img class="rounded border border-secondary" src="{{ product.image.url }}" alt=""
+                    style="width: 100px; height: 80px;">
+
+            </td>
+
+        </tr>
+        {% endwith %}
+
+        {% endfor %}
+        <tr>
+            <td class="bg-dark" colspan="1"></td>
+            <td class="bg-dark text-light"><b> مبلغ کل : </b> {{ bid_cart.get_total_price }} <b> تومان </b></td>
+        </tr>
+
+    </tbody>
+</table>
+
+<br>
+<div class="row">
+    <div class="col-md-5">
+        <a href="{% url 'orders:bank2' %}" class="btn btn-warning btn-lg rounded-pill" role="button"
+            aria-pressed="true">ثبت
+            سفارش و پرداخت از طریق درگاه بانکی</a>
+    </div>
+    {% if request.user.profile.wallet < bid_cart.get_total_price %}
+    <div class="btn-group  offset-md-2" role="group" aria-label="Basic example">
+        <a href="{% url 'accounts:wallet' %}" class="btn btn-sm btn-primary"
+            style="height: 40px;border-top-left-radius: 50px;border-bottom-left-radius: 40px">شارژ کیف پول</a>
+
+        <label class="btn btn-sm btn-secondary"
+            style="border-top-right-radius: 50px;border-bottom-right-radius: 50px;">مقدار کیف پول شما کافی نیست</label>
+    </div>
+    {% else %}
+    <div class="col-md-5 offset-md-2">
+        <a href="{% url 'orders:bank4' %}" class="btn btn-primary btn-lg rounded-pill" role="button"
+            aria-pressed="true">ثبت
+            سفارش و پرداخت از طریق کیف پول</a>
+    </div>
+    {% endif %}
+
+</div>
+
+
+</div>
+
+<br>
+
+{% endif %}
+
+
+
+{% endblock %}

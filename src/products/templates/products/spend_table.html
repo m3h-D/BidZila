@@ -1,0 +1,345 @@
+<!doctype html>
+{% load staticfiles %}
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Bootstrap CSS -->
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+
+    <title>حراج مارکت</title>
+
+    <style>
+        .banafsh {
+            border-color: rgb(197, 33, 230);
+            color: rgb(221, 53, 255);
+        }
+
+        .banafsh:hover {
+            background-color: rgb(197, 33, 230);
+            color: white;
+        }
+    </style>
+</head>
+
+
+<body>
+
+    {% if is_user_p == False and user.is_authenticated and product.event == True %}
+    <table id="userspendtable" class="table table-hover table-secondary " style="width: 500px">
+        <tbody>
+            {% for user in userspend %}
+            <tr>
+                <th scope="row"><label
+                        class="btn btn-sm btn-outline-warning text-dark rounded-pill">{{ user.new_price }}</label>
+                </th>
+                <td class="text-center">{{ user.last_spend|time:"G:i:s" }}</td>
+                <td class="text-right">{{ user.user.username }}</td>
+                <td><img class="rounded-circle border border-success" src="{{ user.user.profile.image.url }}" alt=""
+                        style="width: 50px;height: 50px">
+                </td>
+
+            </tr>
+            {% endfor %}
+            {% for prod in load_in %}
+
+
+            <tr>
+                <th scope="row">
+                    <label class="btn btn-sm btn-outline-warning text-dark rounded-pill">بدون
+                        پیشنهاد</label>
+                </th>
+
+                <td class="text-center">{{ product.updated|time:"G:i:s"}}</td>
+
+
+                <td class="text-right">{{ prod.username }}</td>
+                <td><img class="rounded-circle border border-warning" src="{{ prod.profile.image.url }}" alt=""
+                        style="width: 50px;height: 50px"></td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    {% if is_user_p == False and product.ended == False and product.event == False %}
+    <table id="userspendtable" class="table table-hover table-secondary " style="width: 500px">
+        <tbody>
+            {% for prod in load_in %}
+
+
+            <tr>
+                <th scope="row">
+                    <label class="btn btn-sm btn-outline-warning text-dark rounded-pill">بدون
+                        پیشنهاد</label>
+                </th>
+
+                <td class="text-center">{{ product.updated|time:"G:i:s"}}</td>
+
+
+                <td class="text-right">{{ prod.username }}</td>
+                <td><img class="rounded-circle border border-warning" src="{{ prod.profile.image.url }}" alt=""
+                        style="width: 50px;height: 50px"></td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% elif is_user_p == True and product.ended == False and product.event == False %}
+
+    <table id="userspendtable" class="table table-hover table-secondary " style="width: 500px">
+        <tbody>
+            {% for prod in load_in %}
+
+
+            <tr class="{% if prod == request.user %}bg-light shadow-sm{% endif %} text-dark"
+                style="background-color:#dbdbdb">
+                <th scope="row">
+                    <label class="btn btn-sm btn-outline-warning text-dark rounded-pill">بدون
+                        پیشنهاد</label>
+                </th>
+
+                <td class="text-center">{{ product.updated|time:"G:i:s"}}</td>
+
+
+                <td class="text-right">{{ prod.username }}</td>
+                <td><img class="rounded-circle border border-warning" src="{{ prod.profile.image.url }}" alt=""
+                        style="width: 50px;height: 50px"></td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endif %}
+
+
+    {% if userspend_w.user_can == True and product.ended == True %}
+    <table id="userspendtable" class="table table-hover table-secondary " style="width: 500px">
+        <tbody>
+            {% for user in userspend_l %}
+            <tr>
+                <th scope="row"><label
+                        class="btn btn-sm btn-outline-warning text-dark rounded-pill">{% if user.new_price <= 0 %}جایگاه
+                        واگذار شد{% else %}{{ user.new_price }}{% endif %}</label>
+                </th>
+                <td class="text-center">{{ user.last_spend|time:"G:i:s" }}</td>
+                <td class="text-right">{{ user.user.username }}</td>
+                <td><img class="rounded-circle border border-success" src="{{ user.user.profile.image.url }}" alt=""
+                        style="width: 50px;height: 50px">
+                </td>
+
+            </tr>
+            {% endfor %}
+            {% for prod in load_in %}
+
+
+            <tr>
+                <th scope="row">
+                    <label class="btn btn-sm btn-outline-warning text-dark rounded-pill">بدون
+                        پیشنهاد</label>
+                </th>
+
+                <td class="text-center"></td>
+
+
+                <td class="text-right">{{ prod.username }}</td>
+                <td><img class="rounded-circle border border-warning" src="{{ prod.profile.image.url }}" alt=""
+                        style="width: 50px;height: 50px"></td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+    {% elif product.ended == True%}
+
+    <table id="userspendtable" class="table table-hover table-secondary " style="width: 500px">
+        <tbody>
+            {% for user in userspend_l %}
+            <tr>
+                <th scope="row"><label
+                        class="btn btn-sm btn-outline-warning text-dark rounded-pill">{% if user.new_price <= 0 %}جایگاه
+                        واگذار شد{% else %}{{ user.new_price }}{% endif %}</label>
+                </th>
+                <td class="text-center">{{ user.last_spend|time:"G:i:s" }}</td>
+                <td class="text-right">{{ user.user.username }}</td>
+                <td><img class="rounded-circle border border-success" src="{{ user.user.profile.image.url }}" alt=""
+                        style="width: 50px;height: 50px">
+                </td>
+
+            </tr>
+            {% endfor %}
+            {% for prod in load_in %}
+
+
+            <tr>
+                <th scope="row">
+                    <label class="btn btn-sm btn-outline-warning text-dark rounded-pill">بدون
+                        پیشنهاد</label>
+                </th>
+
+                <td class="text-center"></td>
+
+
+                <td class="text-right">{{ prod.username }}</td>
+                <td><img class="rounded-circle border border-warning" src="{{ prod.profile.image.url }}" alt=""
+                        style="width: 50px;height: 50px"></td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+
+
+
+
+    {% if product.event == True %}
+    {% if not user.is_authenticated %}
+    <table id="userspendtable" class="table table-hover table-secondary" style="width: 500px">
+        <tbody>
+            {% for user in userspend %}
+            <tr>
+                <th scope="row"><label
+                        class="btn btn-sm btn-outline-warning text-dark rounded-pill">{{ user.new_price }}</label>
+                </th>
+                <td class="text-center">{{ user.last_spend|time:"G:i:s" }}</td>
+                <td class="text-right">{{ user.user.username }}</td>
+                <td><img class="rounded-circle border border-success" src="{{ user.user.profile.image.url }}" alt=""
+                        style="width: 50px;height: 50px">
+                </td>
+
+            </tr>
+            {% endfor %}
+            {% for prod in load_in %}
+
+
+            <tr>
+                <th scope="row">
+                    <label class="btn btn-sm btn-outline-warning text-dark rounded-pill">بدون
+                        پیشنهاد</label>
+                </th>
+                <td class="text-center">{{ product.updated|time:"G:i:s"}}</td>
+
+
+                <td class="text-right">{{ prod.username }}</td>
+                <td><img class="rounded-circle border border-warning" src="{{ prod.profile.image.url }}" alt=""
+                        style="width: 50px;height: 50px"></td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    {% endif %}
+    {% if is_user_p == True %}
+
+    <table id="userspendtable" class=" table table-hover table-dark" style="width: 550px">
+        <tbody>
+
+
+            {% for users in userspend %}
+            <tr class="{% if users.user == request.user %}bg-light shadow-sm{% endif %} text-dark"
+                style="background-color:#dbdbdb">
+                <th scope="row">
+
+
+                    <label id="new_price"
+                        class="btn btn-sm btn-outline-warning text-dark rounded-pill">{{ users.new_price }}</label>
+
+                </th>
+                <td id="time" class="text-center">{{ users.last_spend|time:"G:i:s" }}</td>
+                <td>
+                    {% if users.user == request.user %}
+                    <a class="btn btn-sm btn-outline-danger rounded-circle ml-5"
+                        href="{% url 'spendations:delete_from_spend' product.id %}"><i class="material-icons">
+                            delete_forever
+                        </i></a>
+                    {% endif %}
+                </td>
+
+                <td id="usernames" class="text-right">{{ users.user.username }}</td>
+                <td><img class="rounded-circle border border-warning" src="{{ users.user.profile.image.url }}" alt=""
+                        style="width: 50px;height: 50px">
+                </td>
+            </tr>
+            {% endfor %}
+
+            {% for prod in load_in %}
+
+
+            <tr class="{% if prod == request.user %}bg-light shadow-sm{% endif %} text-dark"
+                style="background-color:#dbdbdb">
+                <th scope="row">
+                    <label class="btn btn-sm btn-outline-warning text-dark rounded-pill">بدون
+                        پیشنهاد</label>
+                </th>
+                <td class="text-center">{{ product.updated|time:"G:i:s"}}</td>
+                <td>
+                </td>
+
+                <td class="text-right">{{ prod.username }}</td>
+                <td><img class="rounded-circle border border-warning" src="{{ prod.profile.image.url }}" alt=""
+                        style="width: 50px;height: 50px">
+                </td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
+    {% endif %}
+    {% endif %}
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script>
+        $(window).scroll(function () {
+            $('nav').toggleClass('scrolled', $(this).scrollTop() > 348);
+        })
+    </script>
+
+    <script>
+        var newYear = new Date();
+        newYear = new Date(newYear.getFullYear() + 1, 1 - 1, 1);
+        $('#defaultCountdown').countdown({ until: newYear });
+
+        $('#removeCountdown').click(function () {
+            var destroy = $(this).text() === 'Remove';
+            $(this).text(destroy ? 'Re-attach' : 'Remove');
+            $('#defaultCountdown').countdown(destroy ? 'destroy' : { until: newYear });
+        });
+    </script>
+</body>

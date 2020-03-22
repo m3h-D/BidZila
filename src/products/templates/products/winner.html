@@ -1,0 +1,47 @@
+<!-- با سلام جناب {userspend_w.user.username} شما در حراجی محصول {userspend_w.product.title} برنده شده اید و تنها 2 ساعت زمان
+دارید تا محصول خود را خریداری کنید. -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<body>
+    <div style="text-align: center;">
+        <h2
+            style="background-color: rgb(255, 241, 40); border: none; color: rgb(0, 0, 0); padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; margin: 4px 2px; border-radius: 16px;">
+            {{ userspend_w.user.username }} با سلام جناب</h2>
+    </div>
+    <br>
+    <h2 style="text-align: center;">شما در حراجی محصول ( {{ userspend_w.product.title }} ) برنده شده اید</h2>
+    <h4 style="text-align: center; color:yellowgreen"> قیمت تمام شده برای شما {{ userspend_w.new_price }} تومان</h4>
+    <h2 style="color:red;text-align: center;"> !توجه </h2>
+    <h4 style="text-align: center;">شما تنها
+        <div style="text-align: center;">
+            <h4
+                style="background-color: rgb(253, 63, 63); border: none; color: rgb(255, 255, 255); padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; margin: 4px 2px; border-radius: 16px;text-align: center;">
+                دو ساعت </h4>
+        </div>
+        <h4 style="text-align: center;">زمان دارید تا محصول را
+            خریداری کنید در غیر
+            اینصورت جایگاه شما واگذار خواهد شد</h4>
+        <div style="text-align: center;">
+            <a href="http://127.0.0.1:8000/products/{{ userspend_w.product.pk }}/{{ userspend_w.product.slug }}/"
+                style="text-align: center; background-color: rgb(52, 123, 255); border: none; color: rgb(255, 255, 255); padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; margin: 4px 2px; cursor: pointer; border-radius: 16px;">مشاهده
+                ی محصول</a>
+        </div>
+        <div style="text-align: center;">
+
+            <a href="http://127.0.0.1:8000/"
+                style="text-align: center;background-color: rgb(52, 123, 255); border: none; color: rgb(255, 255, 255); padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; margin: 4px 2px; cursor: pointer; border-radius: 16px;">حراج
+                مارکت</a>
+
+
+        </div>
+
+</body>
+
+</html>

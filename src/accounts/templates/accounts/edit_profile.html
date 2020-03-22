@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<br>
+
+
+<!-- <right>
+    <div class="card mb-3 text-white bg-dark aligen-right offset-md-4" style="width: 70%;height: 350px;">
+        <div class="row no-gutters">
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title text-center" style="height: 10px">{{user.username}}</h5>
+                    <hr>
+                    <p class="card-text text-right"><small class="text">{{ user.first_name }} :نام</small></p>
+                    <p class="card-text text-right"><small class="text">{{ user.last_name }} :نام خانوادگی</small></p>
+                    <p class="card-text text-right"><small class="text">{{ user.email }} :ایمیل</small></p>
+                    <p class="card-text text-right"><small class="text">{{ user.profile.bio }} :بیو</small></p>
+                    <p class="card-text text-right"><small class="text">{{ user.profile.city }} :شهر</small></p>
+                    <p class="card-text text-right"><small class="text">{{ user.profile.address }} :آدرس</small></p>
+                    <p class="card-text text-right"><small class="text">{{ user.profile.phone }} :شماره تماس</small></p>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <img src="{{ user.profile.image.url }}" class="rounded-circle border border-warning" alt="..."
+                    style="width: 120%; height: 348px;">
+            </div>
+        </div>
+    </div>
+</right> -->
+
+<div class="container">
+    <div class="col-12 col-md-10 offset-md-3">
+        <h2 class="text-right">تغییر مشخصات</h2>
+        <br>
+        <!-- baraye ferestadan eImage to safe as "enctype" estefade mikonim -->
+        <form action="{% url 'accounts:edit-profile-view' %}" class="needs-validation text-right" novalidate
+            method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <form class="needs-validation" novalidate>
+                <div class="form-row">
+                    <div class="col-md-4 mb-4 offset-md-8 text-right">
+                        <label for="validationCustomUsername">نام کاربری</label>
+                        <div class="input-group text-right">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupPrepend">@</span>
+                            </div>
+                            <input type="text" class="form-control" id="validationCustomUsername" placeholder="abcd"
+                                name="username" value="{{user.username}}" aria-describedby="inputGroupPrepend" required>
+                            <div class="invalid-feedback">
+                                نام کاربری صحیح نیست
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col-md-4 mb-3 offset-md-4">
+                        <label for="validationCustom02">نام خانوادگی</label>
+                        <input type="text" class="form-control text-right" id="validationCustom02" placeholder="احمدی"
+                            name="last_name" value="{{ user.last_name }}">
+                        <div class="valid-feedback">
+                            قابل قبول!
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label for="validationCustom01">نام</label>
+                        <input type="text" class="form-control text-right" id="validationCustom01" name="first_name"
+                            placeholder="احمد" value="{{ user.first_name }}">
+                        <div class="valid-feedback">
+                            قابل قبول!
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-11 mb-3 ml-5">
+                    <div class="form-group col-md-6 offset-md-7">
+                        <label for="inputEmail4">ایمیل</label>
+                        <input type="email" class="form-control" id="inputEmail4" placeholder="example@info.com"
+                            value="{{ user.email }}" name="email" required>
+                    </div>
+                </div>
+
+                <div class="col-md-5 offset-md-7">
+                    <div class="col-md-12 mb-3 offset-md-1">
+                        <label for="validationTextarea">بیو</label>
+                        <textarea class="form-control text-right" id="validationTextarea" placeholder="درباره من"
+                            value="{{ user.profile.bio }}" name="bio">{{ user.profile.bio }}</textarea>
+                        <div class="invalid-feedback">
+                            لطفا بیو محل سکونت خود را وارد کنید
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label for="validationCustom03">ادرس</label>
+                        <input type="text" class="form-control text-right" id="validationCustom03"
+                            placeholder="تهران-تهرانپارس-خیابان بیمه-..." name="address"
+                            value="{{ user.profile.address }}">
+                        <div class="invalid-feedback">
+                            لطفا ادرس محل سکونت خود را وارد کنید
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="validationCustom04">شهر</label>
+                        <input type="text" class="form-control text-right" id="validationCustom04" placeholder="تهران"
+                            name="city" value="{{ user.profile.city }}">
+                        <div class="invalid-feedback">
+                            لطفا شهر محل سکونت خود را وارد کنید
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="validationCustom05">شماره تماس</label>
+                        <input type="text" class="form-control" id="validationCustom05"
+                            aria-describedby="phoneHelpInline" placeholder="0912..." name="phone"
+                            value="{{ user.profile.phone }}">
+                        <small id="phoneHelpInline" class="text-muted">
+                            همراه با کد/شماره تماس باید حداقل یازده رقم باشد
+                        </small>
+                        <div class="invalid-feedback">
+                            لطفا شماره تماس خود را وارد کنید
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <div class="col-md-4 offset-md-8">
+                    <label for="validationCustom08">کد پستی</label>
+                    <input type="text" class="form-control text-right" id="validationCustom08" placeholder="0012521"
+                        name="post_code" value="{{ user.profile.post_code }}">
+                    <div class="invalid-feedback">
+                        لطفا کد پستی محل سکونت خود را وارد کنید
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <img class="rounded-circle offset-md-3" src="{{ user.profile.image.url}}" alt=""
+                        style="width: 200px;height:200px">
+                    <div class="col-md-5 mt-5 offset-md-1 text-right">
+                        <div class="input-group mb-3">
+                            <div class="custom-file">
+                                <label class="custom-file-label text-left" for="inputGroupFile02"
+                                    aria-describedby="inputGroupFileAddon02">ادرس تصویر پروفایل</label>
+                                <input type="file" class="custom-file-input" id="inputGroupFile02" name="image">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                        <label class="form-check-label" for="invalidCheck">
+                            را خوانده ام و قبول دارم<button class="btn btn-link" data-toggle="modal"
+                                data-target="#exampleModalScrollable">قوانین</button>
+                        </label>
+
+
+                        <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                <div class="modal-content text-right shadow-lg">
+                                    <div class="modal-header text-right">
+                                        <h5 class="modal-title" id="exampleModalScrollableTitle">قوانین</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body text-right">
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora maxime
+                                        facere,
+                                        aperiam expedita excepturi eos asperiores? Voluptate cum nostrum sed ut
+                                        magni?
+                                        Dolores repellendus, aut nemo quas doloribus inventore reiciendis.
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum modi beatae
+                                        facere nihil odit eos, odio quam nemo delectus maiores officiis commodi
+                                        aspernatur quae sequi ullam, optio magnam facilis? Corrupti?
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi esse
+                                        aspernatur
+                                        dolorum debitis quaerat Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit.
+                                        Nobis sequi quos accusantium sunt corporis. Impedit cum accusamus expedita
+                                        quis
+                                        maxime libero rerum architecto, fugit autem facilis aliquid nemo aut quas!
+                                        Lorem
+                                        ipsum dolor sit amet consectetur adipisicing elit. Vel iste similique dicta
+                                        hic
+                                        debitis nobis cupiditate atque porro? Quia consectetur reprehenderit
+                                        corrupti
+                                        ipsam accusamus ipsa ad beatae officiis tenetur vero? beatae tenetur
+                                        distinctio,
+                                        perspiciatis ut laborum hic
+                                        inventore ea. Voluptatem nihil incidunt labore dolores vel corrupti!
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate alias,
+                                        praesentium ut nulla sunt est necessitatibus debitis iure nisi a. Laborum,
+                                        rem.
+                                        Aspernatur exercitationem nesciunt accusantium dolore facere delectus
+                                        explicabo?
+                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusantium ea
+                                        soluta
+                                        corporis ducimus nisi facilis odio doloribus non alias commodi nihil magni
+                                        deleniti aut praesentium quisquam rerum, harum debitis? Earum. Lorem ipsum
+                                        dolor
+                                        sit amet, consectetur adipisicing elit. Eveniet, saepe! Recusandae tempore
+                                        reiciendis aut vero, deleniti dolorem consequuntur, rerum autem distinctio
+                                        soluta voluptas, libero aperiam nobis eaque debitis exercitationem! Soluta.
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">بستن</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="invalid-feedback">
+                            برای تغییر پروفایل حتما باید قوانین را قبول کنید
+                        </div>
+                    </div>
+                </div>
+
+
+                <button class="btn btn-primary" type="submit">ثبت تغییرات</button>
+            </form>
+
+            <script>
+                // Example starter JavaScript for disabling form submissions if there are invalid fields
+                (function () {
+                    'use strict';
+                    window.addEventListener('load', function () {
+                        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                        var forms = document.getElementsByClassName('needs-validation');
+                        // Loop over them and prevent submission
+                        var validation = Array.prototype.filter.call(forms, function (form) {
+                            form.addEventListener('submit', function (event) {
+                                if (form.checkValidity() === false) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                }
+                                form.classList.add('was-validated');
+                            }, false);
+                        });
+                    }, false);
+                })();
+            </script>
+            <br>
+            <p class="text-right">.می توانید رمزعبور خود را از <a href="{% url 'accounts:change-password' %}">اینجا </a>
+                تغییر دهید</p>
+        </form>
+        <br>
+
+    </div>
+</div>
+{% endblock %}

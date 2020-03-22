@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<br>
+<!-- <h2 class="text-right">کد سفارش : {{ order.id }}</h2> -->
+<br>
+<center>
+    <div class="card mb-3 text-white bg-dark" style="max-width: 540%">
+        <div class="row no-gutters">
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{order.user.username}}</h5>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3 offset-md-6">
+                            <p class="card-text text-right">{{ order.user.first_name }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="card-text text-right">: نام </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3 offset-md-6">
+                            <p class="card-text text-right">{{ order.user.last_name }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="card-text text-right">: نام خانوادگی </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4 offset-md-5">
+                            <p class="card-text text-right">{{ order.user.email }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="card-text text-right">: ایمیل </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3 offset-md-6">
+                            <p class="card-text text-right">{{ order.user.profile.bio }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="card-text text-right">: بیو </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3 offset-md-6">
+                            <p class="card-text text-right">{{ order.user.profile.city }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="card-text text-right">: شهر </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3 offset-md-6">
+                            <p class="card-text text-right">{{ order.user.profile.address }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="card-text text-right">: آدرس </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3 offset-md-6">
+                            <p class="card-text text-right">{{ order.user.profile.phone }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="card-text text-right">: شماره تماس </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3 offset-md-6">
+                            <p class="card-text text-right">{{ order.user.profile.post_code }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="card-text text-right">: کد پستی </p>
+                        </div>
+                    </div>
+                    <hr class="bg-light">
+                    <div class="row">
+                        <div class="col-md-3 offset-md-6">
+                            <p class="card-text text-right">{{ order.uuidcode }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="card-text text-right">: کد سفارش </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3 offset-md-6">
+                            <p class="card-text text-right">{{ order.get_status_display }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="card-text text-right">: وضعیت </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-2 offset-md-6">
+                            {% if order.paid == True %}
+                            <p class="card-text text-right">پرداخت شده</p>
+                            {% else %}
+                            <p class="card-text text-right">پرداخت نشده</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-3">
+                            <p class="card-text text-right">: وضعیت پرداخت </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4 offset-md-4">
+                            {% if order.types == 'gateway' %}
+                            <p class="card-text text-right">پرداخت از طریق درگاه</p>
+                            {% elif order.types == 'wallet' %}
+                            <p class="card-text text-right">پرداخت از طریق کیف پول</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-3">
+                            <p class="card-text text-right">: نوع پرداخت </p>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="col-md-4 mt-md-4">
+                <img src="{{ order.user.profile.image.url }}" class="rounded-circle border border-warning" alt="..."
+                    style="width: 490px; height: 500px;">
+            </div>
+        </div>
+    </div>
+</center>
+
+
+
+<hr>
+
+<div class="row justify-content-end">
+
+    {% for x in order_product %}
+    <div class="col-md-5">
+        <div class="card mb-3" style="width: 100%;">
+            <div class="row no-gutters">
+
+
+                <div class="card-body">
+                    <h5 class="card-title text-right">
+                        {% if x.product %}{{ x.product.title }}{% elif x.bids %}{{ x.bids.title }}{% else %}شارژ کیف
+                        پول{% endif %}</h5>
+
+                    <!-- <p class="card-text"><small class="text-muted">{{ cat.category }}</small></p> -->
+                </div>
+
+                <a href="{% if x.product %}{{ x.product.get_absolute_url }}{% else %}{% endif %}">
+                    <img src="{% if x.product %}{{ x.product.image.url }}{% elif x.bids %}{{ x.bids.image.url }}{% else %}https://cdn2.vectorstock.com/i/1000x1000/79/21/online-wallet-poster-with-smartphone-vector-19737921.jpg{% endif %}"
+                        class="card-img" alt="..." style="height: 113px;width: 180px">
+                </a>
+
+
+            </div>
+
+
+
+
+            <div class="card-footer mb-1  p-0 pb-2" style="width: 442px;height: 50px;">
+                <div class="row mt-1">
+                    <label class="btn mt-1 offset-md-1 btn-default">
+                        {% if x.bids %}تعداد : {{x.quantity}}{% elif x.product %}تعداد :
+                        {{ x.quantity }}{% else %}{% endif %}</label>
+                    <p class="text-right mt-2 offset-md-3"> قیمت:
+                        {% if x.bids %}{{x.bids.price}}{% elif x.product %}{{ x.price }}{% else %}{{ x.price }}{% endif %}
+                        تومان</p>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+    {% endfor %}
+
+
+</div>
+
+<hr>
+<div class="text-center">
+    <h2 class="text-right btn btn-primary">
+        مبلغ کل : {{ amount_order }}
+    </h2>
+</div>
+{% if order.types == 'gateway' %}
+<hr>
+<h5 class="text-right">مشخصات درگاه پرداخت</h5>
+{% for pay in payment %}
+<p class="text-right">شناسه پرداخت : {{pay.ref_id}}</p>
+<p class="text-right">وضعیت پرداخت : {{pay.ref_status}}</p>
+<p class="text-right">مبلغ پرداخت شده : {{pay.amount}}</p>
+{% endfor %}
+
+{% endif %}
+
+{% endblock %}

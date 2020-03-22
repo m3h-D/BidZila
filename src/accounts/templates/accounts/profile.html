@@ -1,0 +1,322 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<br>
+<div class="col-md-12">
+    {% if messages %}
+    {% for message in messages %}
+
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <center>
+            {{ message }}
+        </center>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+<h2 class="text-center"> پنل کاربری</h2>
+<br>
+
+<div class="row">
+    <div class="mt-md-1  text-center" style="width: 320px">
+        <table class="table table-sm table-dark mb-0">
+            <thead>
+                <tr>
+                    <th class="text-left" scope="col"> سفارش</th>
+                    <th class="text-left" scope="col">تاریخ</th>
+                    <th class="text-center" scope="col">محصول</th>
+                </tr>
+            </thead>
+        </table>
+
+
+
+        <div class=" scrollbar-ripe-malinka square thin example-5">
+            <table class="table table-hover table-sm table-dark">
+
+
+                {% for order in orderss %}
+                <tbody>
+
+                    <tr>
+
+                        <th scope="row">{{order.order.id}}</th>
+                        <td class="text-right">{{ order.order.created|date:"Y/m/d" }}</td>
+                        <td class="text-right"> <a class="btn btn-sm btn-danger rounded-pill my-1"
+                                href="{{ order.order.get_absolute_url }}">{% if order.product %}{{ order.product.title }}{% elif order.bids %}{{order.bids.title}}{% else %}شارژ
+                                کیف پول{% endif %}</a>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+                {% endfor %}
+
+            </table>
+        </div>
+        <!-- <hr>
+        <div class=" scrollbar-ripe-malinka square thin example-5">
+
+            {% for s in spend %}
+            <div class="card mb-2" style="width: 19rem">
+                <img src="{{ s.product.image.url }}" class="card-img-top" alt="..." style="max-height: 200px">
+                <div class="card-body">
+                    <div class="row justify-content-between">
+                        <p class="text-muted"><small class="text-primary">{{ s.timestamp }} |
+                            </small>
+                        </p>
+                        {% if s.product.user.all.count > 1 %}
+                        <p><i class="fas fa-users"></i> {{ s.product.user.all.count }}</p>
+                        {% else %}
+                        <p><i class="fas fa-user"></i> {{ s.product.user.all.count }}</p>
+                        {% endif %}
+                        <p class="text-muted">
+
+
+                            <small><b> | {{ s.product.category.name }} </b></small>
+
+                        </p>
+                    </div>
+                    <hr>
+
+                    <h5 class="card-title text-center">{{ s.product.title }}</h5> -->
+        <!-- <label class="btn btn-default text-danger offset-md-4 rounded-pill">{{ late.user.username }} :
+                                برنده</label> -->
+        <!-- <center>
+                        <div class="row  mb-3 text-light justify-content-between rounded-pill"
+                            style="width:250px; background-color: #ffbd02">
+                            <img class="rounded-circle border border-warning" src="{{ s.user.profile.image.url }}"
+                                alt="" style="width: 50px;height: 55px">
+                            <h5 class="mt-2 mr-4"> {{ s.user.username}} : برنده</h5>
+                        </div>
+                    </center> -->
+        <!-- <div class="btn-group" role="group" aria-label="Basic example">
+                        <label class="btn btn-sm btn-outline-success"
+                            style="border-top-left-radius: 50px;border-bottom-left-radius: 50px">قیمت برنده :
+                            {{ s.product.final_price }}</label>
+                        <label class="btn btn-sm btn-dark">تخفیف :
+                            {{ s.offered }}%</label>
+                        <label class="btn btn-sm btn-outline-danger"
+                            style="border-top-right-radius: 50px;border-bottom-right-radius: 50px;">قیمت
+                            محصول :
+                            {{ s.product.true_price }}</label>
+                    </div>
+                    <div class="row mt-2">
+                        <a href="{{ s.product.get_absolute_url }}"
+                            class="btn btn-primary rounded-pill offset-md-4">مشاهده
+                            حراجی</a>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div> -->
+        <!-- <div>
+                <a class="btn btn-warning rounded-pill mt-2"
+                    href="{{ order.order.get_absolute_url }}">{% if order.product %}{{ order.product.title }}{%else%}{{order.bids.title}}{% endif %}</a>
+            </div> -->
+
+    </div>
+    <div class="col-md-8">
+        <div class="card mb-3 text-white bg-dark" style="width: 100%">
+            <div class="row no-gutters">
+
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <div class="row">
+                            <p id='last_login1' class="text-white ml-md-4">
+                                <label class="btn btn-sm btn-outline-primary text-light mt-2"
+                                    for="last_login1">{{user.last_login}}</label>
+                                : آخرین
+                                ورود</p>
+                            <h5 class="card-title text-right offset-md-3">{{user.username}} </h5>
+
+                        </div>
+                        <hr>
+
+                        <div class="row">
+
+                            <div class="col-md-3 offset-md-4">
+                                <p class="card-text text-right">{{ user.first_name }}</p>
+                            </div>
+                            <div class="col-md-2 offset-md-2">
+                                <p class="card-text text-right">: نام </p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-4">
+                                <p class="card-text text-right">{{ user.last_name }}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="card-text text-right">: نام خانوادگی </p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6 offset-md-1">
+                                <p class="card-text text-right">{{ user.email }}</p>
+                            </div>
+                            <div class="col-md-2 offset-md-2">
+                                <p class="card-text text-right">: ایمیل </p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-4">
+                                <p class="card-text text-right">{{ user.profile.bio }}</p>
+                            </div>
+                            <div class="col-md-2 offset-md-2">
+                                <p class="card-text text-right">: بیو </p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-4">
+                                <p class="card-text text-right">{{ user.profile.city }}</p>
+                            </div>
+                            <div class="col-md-2 offset-md-2">
+                                <p class="card-text text-right">: شهر </p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-4">
+                                <p class="card-text text-right">{{ user.profile.address }}</p>
+                            </div>
+                            <div class="col-md-2 offset-md-2">
+                                <p class="card-text text-right">: آدرس </p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-4 offset-md-3">
+                                <p class="card-text text-right">{{ user.profile.phone }}</p>
+                            </div>
+                            <div class="col-md-4 ">
+                                <p class="card-text text-right">: شماره تماس </p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-3">
+                                <p class="card-text text-right">{{ user.profile.post_code }}</p>
+                            </div>
+                            <div class="col-md-3 offset-md-2">
+                                <p class="card-text text-right">: کد پستی </p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 offset-md-3">
+                                <p class="card-text text-right">{{ user.profile.wallet }}</p>
+                            </div>
+                            <div class="col-md-3 offset-md-2">
+                                <p class="card-text text-right">: کیف پول </p>
+                            </div>
+                        </div>
+                        <br>
+                        <!-- <p class="card-text text-right">
+                            <div class="row justify-content-between">
+                                <div class="col-md-8">
+                                    <p class="text-center">
+                                        <div class="btn-group-toggle mb-md-1 ">
+                                            <label class="btn btn-outline-primary text-light">
+                                                {{user.last_login}}
+                                        </div>
+
+
+                                </div>
+                                <p class="text-right"> : زمان اخرین بار ورود شما به سیستم</p>
+                            </div> -->
+                        <p class="card-text text-right"><small class="text"> برای تغییر مشخصات <a
+                                    href="{% url 'accounts:edit-profile-view' %}">ایـنجا</a> را کلیک کنید </small></p>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mt-5">
+                    <img src="{{ user.profile.image.url }}" class="rounded-circle border border-warning" alt="..."
+                        style="width: 430px; height: 460px;">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<header class="title text-center pt-2 pb-1 bg-dark text-white">
+    <h4 class="bg-info rounded-pill offset-md-3" style="width: 500px; height: 38px">حراجی هایی که در ان شرکت کرده اید
+    </h4>
+</header>
+<br><br>
+<div class="container-fluid">
+    <div class="row scrollbar-ripe-malinka square thin example-6 flex-row flex-nowrap">
+        {% for s in spend %}
+        <div class="col-md-4">
+            <div class="card mb-2" style="width: 19rem">
+                <img src="{{ s.product.image.url }}" class="card-img-top" alt="..." style="max-height: 200px">
+                <div class="card-body">
+                    <div class="row justify-content-between">
+                        <p class="text-muted"><small class="text-primary">{{ s.timestamp }} |
+                            </small>
+                        </p>
+                        {% if s.product.user.all.count > 1 %}
+                        <p><i class="fas fa-users"></i> {{ s.product.user.all.count }}</p>
+                        {% else %}
+                        <p><i class="fas fa-user"></i> {{ s.product.user.all.count }}</p>
+                        {% endif %}
+                        <p class="text-muted">
+
+
+                            <small><b> | {{ s.product.category.name }} </b></small>
+
+                        </p>
+                    </div>
+                    <hr>
+
+                    <h5 class="card-title text-center">{{ s.product.title }}</h5>
+                    <!-- <label class="btn btn-default text-danger offset-md-4 rounded-pill">{{ late.user.username }} :
+                                    برنده</label> -->
+                    <!-- <center>
+                            <div class="row  mb-3 text-light justify-content-between rounded-pill"
+                                style="width:250px; background-color: #ffbd02">
+                                <img class="rounded-circle border border-warning" src="{{ s.user.profile.image.url }}"
+                                    alt="" style="width: 50px;height: 55px">
+                                <h5 class="mt-2 mr-4"> {{ s.user.username}} : برنده</h5>
+                            </div>
+                        </center> -->
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <label class="btn btn-sm btn-outline-success"
+                            style="border-top-left-radius: 50px;border-bottom-left-radius: 50px">قیمت برنده :
+                            {{ s.product.final_price }}</label>
+                        <label class="btn btn-sm btn-dark">
+                            {% for x in s.product.userwinner.all %}
+                            تخفیف :
+                            {{ x.offered }}%
+                            {% empty %}
+                            بدون تخفیف
+                            {% endfor %}</label>
+                        <label class="btn btn-sm btn-outline-danger"
+                            style="border-top-right-radius: 50px;border-bottom-right-radius: 50px;">قیمت
+                            محصول :
+                            {{ s.product.true_price }}</label>
+                    </div>
+                    <div class="row mt-2">
+                        <a href="{{ s.product.get_absolute_url }}"
+                            class="btn btn-primary rounded-pill offset-md-4">مشاهده
+                            حراجی</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}

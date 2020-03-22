@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<br>
+
+
+<right>
+    <div class="card mb-3 text-white bg-dark aligen-right offset-md-4" style="width: 70%;height: 350px;">
+        <div class="row no-gutters">
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title text-center" style="height: 10px">{{user.username}}</h5>
+                    <hr>
+                    <p class="card-text text-right"><small class="text">{{ user.first_name }} :نام</small></p>
+                    <p class="card-text text-right"><small class="text">{{ user.last_name }} :نام خانوادگی</small></p>
+                    <p class="card-text text-right"><small class="text">{{ user.email }} :ایمیل</small></p>
+                    <p class="card-text text-right"><small class="text">{{ user.profile.bio }} :بیو</small></p>
+                    <p class="card-text text-right"><small class="text">{{ user.profile.city }} :شهر</small></p>
+                    <p class="card-text text-right"><small class="text">{{ user.profile.address }} :آدرس</small></p>
+                    <p class="card-text text-right"><small class="text">{{ user.profile.phone }} :شماره تماس</small></p>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <img src="{{ user.profile.image.url }}" class="rounded-circle border border-warning" alt="..."
+                    style="width: 120%; height: 348px;">
+            </div>
+        </div>
+    </div>
+</right>
+<br>
+<div class="container">
+    <div class="col-12 col-md-10 offset-md-3">
+        <h2 class="text-right">تغییر مشخصات</h2>
+        <!-- baraye ferestadan eImage to safe as "enctype" estefade mikonim -->
+        <form class="needs-validation text-right" novalidate method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ u_form.username }}</p>
+            <p>{{ u_form.first_name }}</p>
+            <p>{{ u_form.last_name }}</p>
+            <p>{{ u_form.email }}</p>
+            <p>{{ p_form.bio }}</p>
+            <p>{{ p_form.phone}}</p>
+            <p>{{ p_form.city}}</p>
+            <p>{{ p_form.address }}</p>
+            <p>{{ p_form.image }}</p>
+            <button class="btn btn-primary" type="submit" name="button"> ثبت تغییرات </button>
+            <p>.می توانید رمزعبور خود را از <a href="{% url 'accounts:change-password' %}">اینجا </a> تغییر دهید</p>
+        </form>
+        <br>
+    </div>
+</div>
+
+{% endblock %}

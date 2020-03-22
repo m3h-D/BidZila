@@ -1,0 +1,922 @@
+<!doctype html>
+{% load staticfiles %}
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Bootstrap CSS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+
+    <title>حراج مارکت</title>
+
+    <style>
+        #del-count {
+            width: 850px;
+            margin: 0 auto;
+        }
+
+        #del-countdown {
+            width: 850px;
+            margin: 0 auto;
+        }
+
+
+        #clock-now span {
+            float: left;
+            text-align: center;
+            font-size: 10px;
+            margin: 0 10px;
+            color: #fff;
+            padding: 10px;
+            width: 50px;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        /* event_start */
+        #clock-now span:nth-child(1) {
+            background: #282d35;
+        }
+
+        #clock-now span:nth-child(2) {
+            background: #282d35;
+        }
+
+        #clock-now span:nth-child(3) {
+            background: #282d35;
+        }
+
+        #clock-now span:nth-child(4) {
+            background: #282d35;
+        }
+
+        #clock-now:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        /* ------------------------ */
+
+
+        #clock-start span {
+            float: left;
+            text-align: center;
+            font-size: 10px;
+            margin: 0 10px;
+            color: #fff;
+            padding: 10px;
+            width: 50px;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        /* event_start */
+        #clock-start span:nth-child(1) {
+            background: #282d35;
+        }
+
+        #clock-start span:nth-child(2) {
+            background: #282d35;
+        }
+
+        #clock-start span:nth-child(3) {
+            background: #282d35;
+        }
+
+        #clock-start span:nth-child(4) {
+            background: #282d35;
+        }
+
+        #clock-start:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+
+
+        /* event_end */
+        #clock-end span {
+            float: left;
+            text-align: center;
+            font-size: 40px;
+            margin: 0 10px;
+            color: #fff;
+            padding: 20px;
+            width: 100px;
+            border-radius: 20px;
+            box-sizing: border-box;
+        }
+
+        #clock-end span:nth-child(1) {
+            background: #282d35;
+        }
+
+        #clock-end span:nth-child(2) {
+            background: #282d35;
+        }
+
+        #clock-end span:nth-child(3) {
+            background: #282d35;
+        }
+
+        #clock-end span:nth-child(4) {
+            background: #282d35;
+        }
+
+        #clock-end:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        #units span {
+            float: left;
+            width: 120px;
+            text-align: center;
+            margin-top: 10px;
+            color: rgb(42, 42, 51);
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 1px rgba(10, 10, 10, 0.7);
+        }
+
+        #units2 span {
+            float: left;
+            width: 70px;
+            text-align: center;
+            margin-top: 10px;
+            color: rgb(42, 42, 51);
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 1px rgba(10, 10, 10, 0.7);
+        }
+
+        span.turn {
+            animation: turn 0.7s ease forwards;
+        }
+
+        @keyframes turn {
+            0% {
+                transform: rotateX(0deg)
+            }
+
+            100% {
+                transform: rotateX(360deg)
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+        #countdown-color {
+            color: #666666;
+            font-size: 20px;
+            margin: 0 auto;
+            padding: 4px;
+            text-align: center;
+            text-shadow: 1px 1px rgba(255, 255, 255, 0.3);
+            width: 200px;
+
+        }
+
+        .banafsh-full {
+            border-color: rgb(197, 33, 230);
+            color: white;
+            background-color: rgb(197, 33, 230);
+        }
+
+        .banafsh {
+            border-color: rgb(197, 33, 230);
+            color: rgb(221, 53, 255);
+        }
+
+        .banafsh:hover {
+            background-color: rgb(197, 33, 230);
+            color: white;
+        }
+
+
+
+        .crown-rotate {
+            -ms-transform: rotate(-25deg);
+            /* IE 9 */
+            -webkit-transform: rotate(-25deg);
+            /* Safari 3-8 */
+            transform: rotate(-25deg);
+        }
+
+        .my-custom-scrollbar {
+            position: relative;
+            height: 200px;
+            overflow: auto;
+        }
+
+        .table-wrapper-scroll-y {
+            display: block;
+        }
+
+        .fixed-home-bg {
+            background-image: url("{% static 'bgf.jpg' %}");
+            height: 350px;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
+            background-color: #041220;
+
+        }
+
+        .scrollbar-ripe-malinka::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-color: #F5F5F5;
+            border-radius: 10px;
+        }
+
+        .scrollbar-ripe-malinka::-webkit-scrollbar {
+            width: 15px;
+            background-color: #F5F5F5;
+        }
+
+        .scrollbar-ripe-malinka::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+            background-image: -webkit-linear-gradient(330deg, #f5d440 0%, #f5576c 100%);
+            background-image: linear-gradient(120deg, #f5d440 0%, #f5576c 100%);
+        }
+
+
+        .square::-webkit-scrollbar-track {
+            border-radius: 0 !important;
+        }
+
+        .square::-webkit-scrollbar-thumb {
+            border-radius: 0 !important;
+        }
+
+        .thin::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .example-1 {
+            position: relative;
+            overflow-y: scroll;
+            height: 150px;
+        }
+
+        .example-2 {
+            position: relative;
+            overflow-y: scroll;
+            height: 225px;
+        }
+
+        .example-3 {
+            position: relative;
+            overflow-y: scroll;
+            height: 200px;
+        }
+
+        .example-4 {
+            position: relative;
+            overflow-y: scroll;
+            height: 300px;
+        }
+
+        .example-5 {
+            position: relative;
+            overflow-y: scroll;
+            height: 550px;
+        }
+
+        .example-6 {
+            position: relative;
+            overflow-x: scroll;
+            width: 1110px;
+        }
+
+        .example-7 {
+            position: relative;
+            overflow-x: scroll;
+            width: 1200px;
+        }
+
+
+        /* .bg-dark {
+            background: rgba(8, 8, 8, 0.644) !important;
+        }
+
+        .bg-dark.scrolled {
+            background: #2a292b !important;
+        } */
+    </style>
+</head>
+
+<body>
+    {% url 'pages:home-view' as home %}
+    {% url 'products:product_list' as liste %}
+    {% url 'pages:contact-view' as contact %}
+
+    {% url 'cart:cart' as carte %}
+    {% url 'accounts:profile-view' as profiles %}
+    <!-- --------- Navbar ---------- -->
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark text-dark">
+        <a class="navbar-brand" href="#">Haraj-Market</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <li class="nav-item dropdown">
+            <a class="btn btn-sm btn-outline-primary rounded-pill text-white mt-1 ml-2 dropdown-toggle" href="#"
+                id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-trophy"></i>
+            </a>
+            <div class="dropdown-menu  mt-2" aria-labelledby="navbarDropdown"
+                style="width: 480px;background-color:#343a40ea">
+
+                <table class=" table table-hover table-dark" style="background-color:#343a40ea"">
+                    <thead class=" text-light">
+                    <tr>
+                        <th scope=" col">امتیاز</th>
+                        <th></th>
+
+                        <th scope="col">
+
+                            <span class="text-right"> کاربران </span>
+                            <!-- <span class="ml-2"> {{ latest.count }} </span> -->
+
+
+
+                        </th>
+
+                        <th scope="col"><i class="fas fa-crown ml-3"></i></th>
+
+                    </tr>
+                    </thead>
+                    <tbody class="text-light">
+                        {% for item in users %}
+
+                        <tr>
+
+                            <th scope="row">{{ item.score }}</th>
+                            <td>
+                                {% for x in item.user.userwinner.all %}
+
+                                {{ x.offered }}
+
+                                % :
+                                تخفیف
+                                {% empty %}
+                                150
+                                % :
+                                تخفیف
+                                {% endfor %}
+
+                            </td>
+                            <td class="text-left">{{ item.user.username }}
+                            </td>
+                            <td><img class="rounded-circle border{% if forloop.first %} border-warning{% else %} border-primary {% endif %}"
+                                    src="{{ item.image.url }}" alt="" style="width: 50px;height: 50px">
+                            </td>
+
+
+                        </tr>
+                        </a>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <!-- <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a> -->
+            </div>
+        </li>
+
+        <div class="nav-item offset-md-3">
+            <a class="nav-item nav-link text-light" data-toggle="modal" data-target="#exampleModalCenter1">
+                <ion-icon name="search" style="height: 25px;width: 30px"><i class="material-icons">
+                        search
+                    </i></ion-icon>
+            </a>
+        </div>
+        <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle1" aria-hidden="true">
+            <div class=" modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content rounded-pill" style="background-color: #343a4041;">
+                    <div class="header">
+                        <h5 class="modal-title text-center text-light" id="exampleModalCenterTitle1">
+                            دنبال چی می گردی ؟</h5>
+                        <button type="button" class="close text-light mr-2 mt-0" data-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body pl-5 pr-5">
+
+                        <form class="form-inline" action="{% url 'products:search' %}">
+
+                            <input class="form-control col-md-10 text-right text-light rounded-pill"
+                                value="{{ request.GET.q }}" type="text" name="q" placeholder="جستجو" aria-label="Search"
+                                style="background-color: #343a40b7;">
+                            <button class="btn btn-defualt" type="submit">
+                                <ion-icon class="text-light" name="search" style="height: 25px;width: 30px">
+                                </ion-icon>
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto offset-md-4">
+                <li class="nav-item dropdown">
+                    {% if user.is_authenticated %}
+
+
+                    <a class="{% if request.path == profiles %} btn btn-sm btn-primary {% else %} btn btn-sm btn-outline-primary {% endif %} rounded-pill text-white mt-1 ml-2 dropdown-toggle"
+                        href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <i class="material-icons">
+                            account_circle
+                        </i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color:#343a40ea">
+                        <div class="card text-light" style="width: 13rem;background-color:#343a40ea">
+                            <center>
+                                <a href="{% url 'accounts:profile-view' %}">
+                                    <img src="{{ user.profile.image.url }}"
+                                        class="card-img-top rounded-circle border border-warning"
+                                        alt="user profile picture" style="width:60%; height:120px"></a>
+                            </center>
+                            <div class="card-body">
+
+                                <h5 class="card-title text-center">{{ user.first_name }} {{ user.last_name }}</h5>
+
+                                <p class="card-text text-center">{{ user.profile.bio }}</p>
+                                <div class="row justify-content-center  my-2">
+                                    <div class="btn-group text-center" role="group" aria-label="Basic example">
+
+                                        <label class="btn btn-sm btn-outline-primary text-light"
+                                            style="border-top-left-radius: 50px;border-bottom-left-radius: 50px">
+                                            تومان
+                                        </label>
+                                        <label
+                                            class="btn btn-sm btn-outline-primary text-light">{{ user.profile.wallet }}
+                                        </label>
+
+
+                                        <label class="btn btn-sm btn-outline-primary text-light"
+                                            style="border-top-right-radius: 50px;border-bottom-right-radius: 50px;">موجودی</label>
+                                    </div>
+                                </div>
+
+                                {% if user.is_superuser %}
+                                <a href="/admin/" class="btn btn-outline-primary text-white rounded-pill ml-3 mt-1"
+                                    style="width:80%">پنل
+                                    ادمین</a>
+                                <a href="{% url 'orders:order_list' %}"
+                                    class="btn btn-outline-primary ml-3 mt-1 text-white rounded-pill"
+                                    style="width:80%">سفارشات</a>
+                                {% endif %}
+
+                                <a href="{% url 'accounts:wallet' %}"
+                                    class="btn btn-outline-primary ml-3 mt-1 text-white rounded-pill"
+                                    style="width:80%">شارژ کیف پول</a>
+                                <a class="btn btn-outline-primary text-white ml-3 mt-1 rounded-pill" style="width:80%"
+                                    href="{% url 'accounts:edit-profile-view' %}">تغییر
+                                    مشخصات</a>
+
+                                <a class="btn btn-outline-primary text-white ml-3 mt-1 rounded-pill" style="width:80%"
+                                    href="{% url 'accounts:logout-view' %}">خروج از
+                                    سیستم</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+
+
+
+
+                {% else %}
+                <li class="nav-item">
+                    <a class="btn btn-sm btn-outline-primary rounded-pill text-white mt-1" data-toggle="modal"
+                        data-target="#exampleModalCenter">ورود/ثبت نام</a>
+                </li>
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class=" modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content shadow-lg">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle">ورود/ثبت نام</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                <form class="px-4 py-3 shadow-sm p-4 mb-md-4 bg-white" method="POST"
+                                    action="{% url 'accounts:login-view' %}">{% csrf_token %}
+                                    <div class="form-group text-right">
+                                        <label for="id_username">نام کاربری / ایمیل</label>
+                                        <input type="text" class="form-control text-right" id="id_username"
+                                            name="username" placeholder="Mamad">
+                                    </div>
+                                    <div class="form-group text-right">
+                                        <label for="id_password">رمز عبور</label>
+                                        <input type="password" class="form-control text-right" id="id_password"
+                                            name="password" placeholder="Password">
+                                    </div>
+                                    <div class="form-group ">
+                                        <!-- <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" id="dropdownCheck">
+                                                    <label class="form-check-label" for="dropdownCheck">
+                                                        Remember me
+                                                    </label>
+                                                </div> -->
+                                    </div>
+                                    <div class="col-md-3 offset-md-10">
+                                        <button type="submit" class="btn btn-primary text-right">ورود</button>
+                                        <input type="hidden" name="next" value="{{ next }}">
+                                    </div>
+                                </form>
+                                <div class="dropdown-divider "></div>
+                                <a class="dropdown-item shadow-sm p-4 mb-md-4 bg-white text-right"
+                                    href="{% url 'accounts:register-view' %}">
+                                    ثبت نام</a>
+                                <a class="dropdown-item shadow-sm p-4 mb-md-4 bg-white text-right"
+                                    href="{% url 'accounts:password_reset' %}">رمز خود را فراموش کرده
+                                    اید؟</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                {% endif %}
+                </li>
+                <li class="nav-item">
+                    <a class="{% if request.path == contact %}btn btn-sm btn-primary {% else %}btn btn-sm btn-outline-primary {% endif %} rounded-pill text-white mt-1 ml-2"
+                        href="{% url 'pages:contact-view' %}">تماس با ما</a>
+                </li>
+                <li class="nav-item">
+                    <a class="{% if request.path == liste %}btn btn-sm btn-primary {% else %} btn btn-sm btn-outline-primary {% endif %} rounded-pill text-white mt-1 ml-2"
+                        href="{% url 'products:product_list'%}">
+                        تمام حراجی ها
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item active">
+                    <a class=" {% if request.path == home %}btn btn-sm btn-primary {% else %}btn btn-sm btn-outline-primary {% endif %} rounded-pill text-white mr-5 mt-1 ml-2"
+                        href="{% url 'pages:home-view' %}"> <i class="material-icons">
+                            home
+                        </i> <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="btn btn-sm btn-outline-primary rounded-pill text-white mt-1 dropdown-toggle" href="#"
+                        id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <i class="material-icons ml-3 text-white">
+                            shopping_cart
+                        </i>
+
+                        <span class="badge badge-light text-left mr-3">{{ cart|length }} +
+                            {{ bid_cart|length }}</span>
+
+                    </a>
+                    <div class="dropdown-menu mt-2 rounded" aria-labelledby="navbarDropdown"
+                        style="background-color: #343a40ea">
+                        <div class="row justify-content-center mb-2">
+                            <a class="btn btn-warning rounded-pill" href="{% url 'cart:cart' %}"><span
+                                    class="badge badge-light text-left mr-3">{{ cart|length }}</span> <i
+                                    class="fas fa-shopping-bag"></i></a>
+                        </div>
+                        <div class="row justify-content-center">
+                            <a class="btn btn-warning rounded-pill" href="{% url 'cart:bid_cart_view' %}"><span
+                                    class="badge badge-light text-left mr-3">
+                                    {{ bid_cart|length }}</span> <i class="fas fa-dice-d20 rounded-circle"></i>
+                            </a>
+                        </div>
+                        <!-- 
+                        <table class="table table-hover table-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col">امتیاز</th>
+                                    <th></th>
+
+                                    <th scope="col">
+                                        <div class="row">
+
+                                            <span> برنده گذشته </span>
+                                            <span class="ml-2"> {{ latest.count }} </span>
+                                        </div>
+
+
+                                    </th>
+
+                                    <th scope="col"><i class="fas fa-crown ml-3"></i></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in latest %}
+
+                                <tr>
+
+                                    <th scope="row">{{ item.user.profile.score }}</th>
+                                    <td> {{ item.offered }}% : تخفیف </td>
+                                    <td class="text-right"><a class="text-light"
+                                            href="{{ item.product.get_absolute_url }}">{{ item.user.username }}</a>
+                                    </td>
+                                    <td><img class="rounded-circle border border-warning"
+                                            src="{{ item.user.profile.image.url }}" alt=""
+                                            style="width: 50px;height: 50px">
+                                    </td>
+
+
+                                </tr>
+                                </a>
+                                {% endfor %}
+                            </tbody>
+                        </table> -->
+                        <!-- <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a> -->
+                    </div>
+                </li>
+
+                <!-- <li class="nav-item">
+                    <a href="{% url 'cart:cart' %}">
+                        <button type="button"
+                            class="{% if request.path == carte %}btn btn-sm btn-primary {% else %}btn btn-sm btn-outline-primary {% endif %} rounded-pill mt-1"
+                            data-toggle="tooltip" data-placement="bottom" title="سبد خرید" style="width: 85px">
+                            <div class="row justify-content-between">
+                                <i class="material-icons ml-3 text-white">
+                                    shopping_cart
+                                </i>
+
+                                <span class="badge badge-light text-left mr-3">{{ cart|length }} +
+                                    {{ bid_cart|length }}</span>
+                            </div>
+                        </button>
+                    </a>
+                </li> -->
+
+
+            </ul>
+
+
+        </div>
+    </nav>
+    <!-- {% if user.is_authenticated %}
+    {% if winner %}
+    {% for win in winner %}
+    <div class="alert-success">جناب {{ win.user.username }} </div>
+    <div class="alert-success">شما در حراجی محصول {{ win.product.title }} برنده شدید</div>
+    <div class="alert-success">تنها 2 ساعت زمان برای خرید محصول دارید</div>
+    {% endfor %}
+    {% endif %}
+    {% endif %} -->
+    {% block header %}
+    {% endblock %}
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+
+    {% block product %}
+    {% endblock %}
+    <!-- Default dropleft button -->
+    {% if bids %}
+    <div class="btn-group dropleft fixed-bottom col-md-1" style="margin-bottom: 200px;margin-left: 1310px">
+        <button type="button" class="btn btn-primary dropdown-toggle rounded-pill" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            پیشنهاد های شما
+        </button>
+        <div class="dropdown-menu bg-dark rounded-pill" style="width: 200px">
+            {% for bid in bids %}
+            <div class="row">
+                <a href="{{ bid.product.get_absolute_url }}">
+                    <p class="text-left btn btn-sm btn-warning rounded-pill ml-5">{{ bid.new_price }}</p>
+                    <p class="btn btn-sm btn-warning rounded-pill" style="height: 32px"> :
+                        {{ bid.product.title }}</p>
+                </a>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    <br>
+
+
+    <!-- Footer -->
+    <footer class="page-footer font-small bg-dark text-white lighten-3 pt-4">
+
+        <!-- Footer Links -->
+        <div class="container text-center text-md-left">
+
+            <!-- Grid row -->
+            <div class="row">
+
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 text-center mx-auto my-4">
+
+                    <!-- Social buttons -->
+                    <h5 class="font-weight-bold text-uppercase mb-4">ما رادنبال کنید</h5>
+
+
+                    <ul>
+
+                        <li>
+                            <a type=" button" href="https://www.instagram.com/bidzilacom/"
+                                class="btn btn-outline-warning rounded-circle mb-1">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </li>
+                        <!-- Twitter -->
+                        <li>
+                            <a type=" button" class="btn btn-outline-primary rounded-circle mb-1">
+                                <i class="fab fa-telegram-plane"></i>
+                            </a>
+                        </li>
+                        <!-- Google +-->
+                        <li>
+                            <a type=" button" class="btn btn-outline-danger rounded-circle mb-1">
+                                <i class="fab fa-google-plus-g" style="width: 14px;height: 16px"></i>
+                            </a>
+                        </li>
+                        <!-- Dribbble -->
+                        <li>
+                            <a type=" button" class="btn btn-outline-info rounded-circle">
+                                <i class="fab fa-facebook-f" style="width: 14px;height: 16px"></i>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- Grid column -->
+
+                <hr class="clearfix w-100 d-md-none">
+
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 mx-auto my-md-4 my-0 mt-4 mb-1">
+
+                    <!-- Links -->
+                    <h5 class="font-weight-bold text-uppercase mb-4">تایید شده توسط</h5>
+
+                    <ul class="list-unstyled text-right">
+                        <!-- <li>
+                            <p>
+                                <a class="text-white" href="#!">سازمان غذاو دارو</a>
+                            </p>
+                        </li> -->
+                        <li>
+                            <p>
+                                <a class="text-white" href="#!">نشان ملی ثبت</a>
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <a class="text-white" href="#!">دارای نشان اعتماد</a>
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <a class="text-white" href="#!">عضو اتحادیه کشوری کسب و کار های مجازی</a>
+                            </p>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- Grid column -->
+
+                <hr class="clearfix w-100 d-md-none">
+
+                <!-- Grid column -->
+                <div class="col-md-4 col-lg-3 mx-auto my-md-4 my-0 mt-4 mb-1">
+
+                    <!-- Contact details -->
+                    <h5 class="font-weight-bold text-uppercase mb-4">راه های تماس با ما</h5>
+
+                    <ul class="list-unstyled">
+                        <li>
+                            <p>
+                                <i class="fas fa-home mr-3 text-right"></i> دفتر مرکزی: تهران-کوچه 1-پلاک 1</p>
+                        </li>
+                        <li>
+                            <p>
+                                <i class="fas fa-envelope mr-3"></i> lordofhell225@gmail.com</p>
+                        </li>
+                        <li>
+                            <p>
+                                <i class="fas fa-phone mr-3"></i> +98 21 565 88 34</p>
+                        </li>
+                        <li>
+                            <p>
+                                <i class="fas fa-phone mr-3"></i> +98 912 364 34 43 </p>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- Grid column -->
+
+                <hr class="clearfix w-100 d-md-none">
+
+                <!-- Grid column -->
+
+                <div class="col-md-4 col-lg-3 mr-auto my-md-4 my-0 mt-4 mb-1">
+
+                    <!-- Content -->
+                    <h5 class="font-weight-bold text-uppercase mb-4 text-center">درباره ما</h5>
+                    <p class="text-center"> سایت حراج مارکت یک سایت تهیه انواع لوازم خانگی است </p>
+                    <p class="text-center">محصولات ما با بهترین کیفیت و سریع ترین زمان ممکن به دست شما مشتریان عزیز
+                        خواهد
+                        رسید.
+                        نحوه ی کار ما به این صورت است که سفارشات شما عزیزان توسط نزدیک ترین فروشگاه تهیه شده و در کمترین
+                        زمان به دست شما عزیزان خواهد رسید.
+                    </p>
+
+                </div>
+
+
+                <!-- Grid column -->
+
+            </div>
+            <!-- Grid row -->
+
+        </div>
+        <!-- Footer Links -->
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2019 Copyright:
+            <a class="text-white" href=""> HarajMarket.ir</a>
+        </div>
+        <!-- Copyright -->
+
+    </footer>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script>
+        $(window).scroll(function () {
+            $('nav').toggleClass('scrolled', $(this).scrollTop() > 348);
+        })
+    </script>
+
+    <script>
+        var newYear = new Date();
+        newYear = new Date(newYear.getFullYear() + 1, 1 - 1, 1);
+        $('#defaultCountdown').countdown({ until: newYear });
+
+        $('#removeCountdown').click(function () {
+            var destroy = $(this).text() === 'Remove';
+            $(this).text(destroy ? 'Re-attach' : 'Remove');
+            $('#defaultCountdown').countdown(destroy ? 'destroy' : { until: newYear });
+        });
+    </script>
+
+</body>
+
+</html>

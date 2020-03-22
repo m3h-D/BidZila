@@ -1,0 +1,391 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}DigiShop|Home{% endblock %}
+
+{% block header %}
+<header class="fixed-home-bg">
+
+    <div class="text-light" style="background: #343a4073">
+        <br><br><br>
+        <h3 class="text-center">حراج مارکت</h3>
+        <br>
+        <p class="text-center"> تنها محصولاتی که به حراج گذاشته شده اند قابل خریداری هستند</p>
+        <p class="text-center"> ارسال رایگان به سراسر کشور</p>
+        <p class="text-center"> ضمانت 7 روزه بازگشت محصول</p>
+        <br><br><br><br>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<br>
+
+<style>
+    .carousel-control-prev-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+    }
+
+    .carousel-control-next-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+    }
+</style>
+
+
+
+
+
+<div class="row">
+    <div class="col-md-8 offset-md-0">
+
+        <div class="bd-example shadow-sm p-4 mb-4 bg-white">
+            <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    {% for cat in category %}
+                    <li data-target="#carouselExampleCaptions" data-slide-to="{{ cat.id }}"
+                        class="{% if forloop.first %} active {% endif %}"></li>
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner">
+                    {% for cat in category %}
+                    <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                        <a href="{{ cat.get_absolute_url }}">
+                            <img src="{{ cat.image.url }}" class="d-block w-100 img-thumbnail" alt="{{ cat.title }}"
+                                style="height: 470px;">
+                        </a>
+                        <div class="carousel-caption d-none d-md-block"
+                            style="width: 99%; left: 1px; background-color:#343a408c">
+                            <h5>{{ cat.name }}</h5>
+                            <p>{{ cat.description }}</p>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+            <a class="carousel-control-prev pr-md-3" style="width: 9%" href="#carouselExampleCaptions" role="button"
+                data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next pl-md-3" style="width: 9%" href="#carouselExampleCaptions" role="button"
+                data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+        <br />
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="col-md-4 offset-md-0">
+        <form class="px-4 py-3 shadow-sm p-4 mb-4 bg-dark text-white" style="height:510px;">
+
+            <h2 class="title text-center"> Haraj-Market </h2>
+            <hr>
+            <center>
+                <b class="text-center">به حراج مارکت خوش امدید {{user}} جناب </b>
+            </center>
+            <hr>
+            <p class="text-right"> : تاریخ اخرین ورود شما به سیستم</p>
+            <p class="text-center">
+                <div class="btn-group-toggle">
+                    <label class="btn btn-outline-primary rounded-pill text-light ml-5">
+                        <input type="checkbox" checked autocomplete="off">{{user.last_login}}</label>
+                </div>
+            </p>
+            <br>
+            <p class="text-center">با کیفیت ترین محصولات با پایین ترین قیمت</p>
+            <p class="text-right">سفارشات شما حداقل بعد از 3 روز به دست شما خواهد رسید</p>
+
+            <br>
+
+            {% if cart|length <= 0 %}
+            <button type="button" class="btn btn-secondary ml-2 mb-2 rounded-pill">سبد خرید محصولات شما خالی
+                است
+                <i class="fas fa-shopping-bag"></i>
+            </button>
+            {% else %}
+            <a href="{% url 'cart:cart' %}">
+                <button type="button" class="btn btn-success rounded-pill ml-5 mb-2">سبد خرید
+                    محصولات شما
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="badge badge-light text-left">{{ cart|length }}</span>
+
+                </button>
+            </a>
+
+            {% endif %}
+            {% if bid_cart|length <= 0 %}
+            <button type="button" class="btn btn-secondary ml-4 rounded-pill">سبد خرید بیدهای شما خالی
+                است
+                <i class="fas fa-dice-d20 rounded-circle"></i>
+            </button>
+            {% else %}
+            <a href="{% url 'cart:bid_cart_view' %}">
+                <button type="button" class="btn banafsh-full rounded-pill ml-5">سبد خرید بیدهای شما
+                    <i class="fas fa-dice-d20 rounded-circle"></i>
+                    <span class="badge badge-light text-left">{{ bid_cart|length }}</span>
+
+                </button>
+            </a>
+
+            {% endif %}
+
+        </form>
+    </div>
+</div>
+{% else %}
+<div class="col-md-4 offset-md-0">
+    <form class="px-4 py-3 shadow-sm p-4 mb-4 bg-white" method="POST" action="{% url 'accounts:login-view' %}">
+        {% csrf_token %}
+        <div class="form-group text-right">
+            <label for="id_username">نام کاربری / ایمیل</label>
+            <input type="text" class="form-control" id="id_username" name="username" placeholder="Mamad">
+        </div>
+        <div class="form-group text-right">
+            <label for="id_password">رمز عبور</label>
+            <input type="password" class="form-control" id="id_password" name="password" placeholder="Password">
+        </div>
+        <div class="col-md-3 offset-md-9">
+            <button type="submit" class="btn btn-primary text-right">ورود</button>
+        </div>
+    </form>
+    <div class="dropdown-divider "></div>
+    <a class="dropdown-item shadow-sm p-4 mb-4 bg-white text-right" href="{% url 'accounts:register-view' %}">ثبت
+        نام</a>
+    <a class="dropdown-item shadow-sm p-4 mb-4 bg-white text-right" href="{% url 'accounts:password_reset' %}">رمز خود
+        را
+        فراموش
+        کرده اید؟</a>
+</div>
+</div>
+</div>
+</div>
+{% endif %}
+
+
+
+<br>
+</div>
+
+
+<header class="title text-center pt-2 pb-1 bg-dark text-white">
+    <h4 class="bg-danger rounded-pill offset-md-4" style="width: 500px; height: 38px">حراجی های درحال برگزاری</h4>
+</header>
+<br><br><br>
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-9">
+            <div class="tab-content" id="nav-tabContent">
+                {% for product in products %}
+                <div class="tab-pane fade show {% if forloop.first %} active {% endif %}" id="{{product.slug}}"
+                    role="tabpanel" aria-labelledby="list-{{product.slug}}-list">
+                    <div class="card mb-3 rounded-pill" style="width: 100%;">
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                <a href="{{ product.get_absolute_url }}">
+                                    <img src="{{product.image.url}}" class="card-img rounded-circle" alt="..."
+                                        style="height:285px;width:275px;">
+                                </a>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title text-right mr-5"><a
+                                            href="{{ product.get_absolute_url }}">{{product.title}}</a></h5>
+                                    <div>
+                                        <p class="card-text text-right">{{product.description|truncatechars:100}}</p>
+
+                                    </div>
+                                    <br>
+                                    <div class="row mb-2">
+                                        <div id="del-countdown m-0" style="width: 280px;padding-right: 0">
+                                            <div id="clock-start" style="width: 280px;">
+                                            </div>
+
+                                            <div id="units2">
+                                                <span>روز</span>
+                                                <span>ساعت</span>
+                                                <span>دقیقه</span>
+                                                <span>ثانیه</span>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            function updateTimer(deadline) {
+                                                var time = deadline - new Date();
+                                                return {
+                                                    'days': Math.floor(time / (1000 * 60 * 60 * 24)),
+                                                    'hours': Math.floor((time / (1000 * 60 * 60)) % 24),
+                                                    'minutes': Math.floor((time / 1000 / 60) % 60),
+                                                    'seconds': Math.floor((time / 1000) % 60),
+                                                    'total': time
+                                                };
+                                            }
+
+
+                                            function animateClock(span) {
+                                                span.className = "turn";
+                                                setTimeout(function () {
+                                                    span.className = "";
+                                                }, 700);
+                                            }
+
+                                            function startTimer(id, deadline) {
+                                                var timerInterval = setInterval(function () {
+                                                    var clock = document.getElementById(id);
+                                                    var timer = updateTimer(deadline);
+
+                                                    clock.innerHTML = '<span>' + timer.days + '</span>'
+                                                        + '<span>' + timer.hours + '</span>'
+                                                        + '<span>' + timer.minutes + '</span>'
+                                                        + '<span>' + timer.seconds + '</span>';
+
+                                                    //animations
+                                                    var spans = clock.getElementsByTagName("span");
+                                                    animateClock(spans[3]);
+                                                    if (timer.seconds == 59) animateClock(spans[2]);
+                                                    if (timer.minutes == 59 && timer.seconds == 59) animateClock(spans[1]);
+                                                    if (timer.hours == 23 && timer.minutes == 59 && timer.seconds == 59) animateClock(spans[0]);
+
+                                                    //check for end of timer
+                                                    if (timer.total < 1) {
+                                                        clearInterval(timerInterval);
+                                                        clock.innerHTML = '<span>0</span><span>0</span><span>0</span><span>0</span>';
+                                                    }
+
+
+                                                }, 1000);
+                                            }
+
+
+                                            window.onload = function () {
+                                                var deadline = new Date("{% if product.event == True %}{{ product.event_end|date:'m d, Y G:i:s' }}{% elif product.event == False and product.ended == False %}{{ product.event_start|date:'m d, Y G:i:s'  }}{% endif %}");
+                                                startTimer("clock-start", deadline);
+                                            };</script>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-3">
+                                            <a class="btn btn-primary rounded-pill"
+                                                href="{{ product.get_absolute_url }}">مشاهده</a>
+                                        </div>
+                                        <div class="card-footer mb-3 col-md-8 rounded-pill">
+
+                                            <div class="col-md-12">
+                                                <p class="card-text text-right"> قیمت کف: {{product.new_price}} تومان
+                                                </p>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+            <div class="list-group" id="list-tab" role="tablist">
+
+                {% for product in products %}
+                <a class="list-group-item list-group-item-action text-right rounded-pill {% if forloop.first %} active {% endif %}"
+                    id="list-{{product.id}}-list" data-toggle="list" href="#{{product.slug}}" role="tab"
+                    aria-controls="{{product.id}}" style="width:70%">{{product.title}}</a>
+
+                {% endfor %}
+            </div>
+        </div>
+
+
+    </div>
+    <br><br><br>
+
+</div>
+
+
+
+
+
+<header class="title text-center pt-2 pb-1 bg-dark text-white">
+    <h4 class="bg-secondary rounded-pill offset-md-4" style="width: 500px; height: 38px">حراجی های برگزار شده</h4>
+</header>
+<br><br><br>
+
+<section class="container">
+    <div class="row justify-content-end scrollbar-ripe-malinka square thin example-7 flex-row flex-nowrap">
+
+        {% for late in latests %}
+        <div class="col-md-4">
+            <div class="card" style="width: 23rem">
+                <img src="{{ late.product.image.url }}" class="card-img-top" alt="..." style="max-height: 230px">
+                <div class="card-body">
+                    <div class="row justify-content-between">
+                        <p class="text-muted"><small class="text-primary">{{ late.timestamp }} |
+                            </small>
+                        </p>
+                        {% if late.product.user.all.count > 1 %}
+                        <p><i class="fas fa-users"></i> {{ late.product.user.all.count }}</p>
+                        {% else %}
+                        <p><i class="fas fa-user"></i> {{ late.product.user.all.count }}</p>
+                        {% endif %}
+                        <p class="text-muted">
+
+
+                            <small><b> | {{ late.product.category.name }} </b></small>
+
+                        </p>
+                    </div>
+                    <hr>
+
+                    <h5 class="card-title text-center">{{ late.product.title }}</h5>
+                    <!-- <label class="btn btn-default text-danger offset-md-4 rounded-pill">{{ late.user.username }} :
+                        برنده</label> -->
+                    <center>
+                        <div class="row  mb-3 text-light justify-content-between rounded-pill"
+                            style="width:250px; background-color: #ffbd02">
+                            <img class="rounded-circle border border-warning" src="{{ late.user.profile.image.url }}"
+                                alt="" style="width: 50px;height: 55px">
+                            <h5 class="mt-2 mr-4"> {{ late.user.username}} : برنده</h5>
+                        </div>
+                    </center>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <label class="btn btn-sm btn-outline-success"
+                            style="border-top-left-radius: 50px;border-bottom-left-radius: 50px">قیمت برنده :
+                            {{ late.product.final_price }}</label>
+                        <label class="btn btn-sm btn-dark">تخفیف :
+                            {{ late.offered }}%</label>
+                        <label class="btn btn-sm btn-outline-danger"
+                            style="border-top-right-radius: 50px;border-bottom-right-radius: 50px;">قیمت
+                            محصول :
+                            {{ late.product.true_price }}</label>
+                    </div>
+                    <div class="row mt-2">
+                        <a href="{{ late.product.get_absolute_url }}"
+                            class="btn btn-primary rounded-pill offset-md-4">مشاهده
+                            حراجی</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+
+
+{% endblock %}

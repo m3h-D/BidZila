@@ -1,0 +1,274 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<br>
+<div class="col-md-12">
+    {% if messages %}
+    {% for message in messages %}
+
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <center>
+            {{ message }}
+        </center>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
+
+
+
+<br>
+<div class="row">
+    <div class="btn-group col-md-6" role="group" aria-label="Basic example">
+        {% for cat in categories %}
+        <a href="{% url 'products:product_list_by_category' cat.slug %}" style="height: 45px"
+            class="btn btn-secondary">{{ cat.name }}</a>
+        {% endfor %}
+        <a href="{% url 'products:product_list' %}" style="height: 45px" class="btn btn-danger">تمام محصولات</a>
+    </div>
+    <div class="col-md-3  offset-md-3">
+        <form class="form-inline" method="GET" action="{% url 'products:search' %}">
+
+            <input class="form-control mr-sm-2 text-right" type="search" name="q" placeholder="جستجو"
+                value="{{ request.GET.q }}" aria-label="Search">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+
+        </form>
+    </div>
+</div>
+
+
+
+<hr>
+
+<form action="{% url 'products:ordering' %}" method="get">
+    <div class="row">
+        <div class="col-md-2 offset-md-1 text-right">
+            {{ filter.form.special|as_crispy_field }}
+        </div>
+        <div class="col-md-2 text-right">
+            {{ filter.form.ordering2|as_crispy_field }}
+        </div>
+        <div class="col-md-2 text-right">
+            {{ filter.form.ordering|as_crispy_field }}
+        </div>
+        <div class="col-md-2 text-right">
+            {{ filter.form.ordering3|as_crispy_field }}
+        </div>
+
+        <div class="col-md-2 offset-md-1">
+            <button type="submit" class="btn btn-primary mt-md-4"><i class="fas fa-filter"></i>مرتب سازی</button>
+        </div>
+    </div>
+
+</form>
+<!-- {% if result %}
+<div>
+    <p class="text-right"><b>تعداد {{ result|length }} محصول پیدا شد </b></p>
+</div>
+{% else %}
+
+{% endif %} -->
+<hr>
+<center>
+    <div class="row justify-content-end">
+        {% for product in filter.qs %}
+        {% if product.stock == 0 %}
+
+
+        <div class="col-md-4">
+            <div class="card shadow-sm p-4 mb-4 bg-light" style="width: 330px; height:  26rem;">
+                <a href="">
+                    <img src="{{ product.image.url }}" class="card-img-top border border-dark" style="height: 182px;"
+                        alt="name"></a>
+                <div class="card-body" style="height: 200px;">
+                    <h5 class="card-title" style="height: 50px;">
+                        <center>{{ product.title }}</center>
+                    </h5>
+                    <p class="card-text text-right font-weight-bold">به تعداد کافی موجود نیست</p>
+                    <div class="col-md-14 mr-1">
+                        <div class="card-footer rounded" style="width: 109%;">
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <small class="text-muted">
+                                        دسته: {{ product.category.name }}
+                                    </small>
+                                </div>
+                                <div class="col-md-2 ">
+                                    <a href="{{ product.get_absolute_url }}"
+                                        class="btn btn-secondary disabled">جزئیات</a>
+                                </div>
+                                <div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+
+        <div class="col-md-4 mb-md-1 mr-0">
+            <div class="card shadow-lg p-4 mb-4 bg-white" style="width: 330px; height:  28rem;">
+                <a href="{{ product.get_absolute_url }}">
+                    <img src="{{ product.image.url }}" class="card-img-top border border-dark" style="height: 182px;"
+                        alt="{{product.title}}"></a>
+                <div class="card-body" style="height: 200px;">
+                    <h5 class="card-title" style="height: 50px;">
+                        <center>{{ product.title }}</center>
+                    </h5>
+                    {% if product.special == True or product.special2 == True %}
+                    <p class="bg-danger text-center text-white" style="width: 100%;"><strong>* پیشنهاد
+                            ویژه *</strong></p>
+                    {% else %}
+                    <p class="text-center text-white" style="width: 100%;"><strong>-</strong></p>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-md-2 mb-2">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-outline-danger" data-toggle="modal"
+                                data-target="#{{ product.slug }}" data-toggle="tooltip" data-placement="bottom"
+                                title="نمایش سریع جزئیات">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="{{product.slug}}" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content" style="height: 300px;width: 110%">
+                                        <div class="modal-header">
+
+                                            <h5 class="modal-title ml-5" id="exampleModalLabel"
+                                                style="padding-left: 200px">
+                                                {{ product.title}}
+                                            </h5>
+
+
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+
+
+
+                                                <div class="col-md-4">
+                                                    <img src="{{ product.image.url }}" alt="{{ product.title}}"
+                                                        style="height: 110px;width: 100%">
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <p class="card-text text-right">
+                                                                {{ product.description|truncatewords:10 }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div>
+                                                        <button type="button"
+                                                            class="col-md-10 ml-md-2 btn btn-outline-dark"
+                                                            data-dismiss="modal" data-toggle="tooltip"
+                                                            data-placement="right" title="بستن"><i
+                                                                class="fas fa-times"></i></button>
+                                                    </div>
+                                                    <div>
+                                                        <a href="{% url 'favorites:favorite_update_view' product.id %}">
+                                                            <button class="btn btn-danger mt-md-3 col-md-10 ml-md-2"
+                                                                data-toggle="tooltip" data-placement="right"
+                                                                title="اضافه به علاقه مندیها"> <i class="fas fa-heart">
+                                                                </i>
+                                                            </button>
+
+                                                        </a>
+                                                    </div>
+                                                    <div>
+
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="card-footer mt-md-2" style="height: 50px;">
+                                                <h5 class="card-title text-right col-md-7 offset-md-2">
+                                                    قیمت :
+                                                    {{ product.price }} تومان</h5>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 offset-md-2">
+                            <p class="card-text text-center font-weight-bold" style="width: 110%"> قیمت:
+                                {{ product.price }} تومان</p>
+                        </div>
+                    </div>
+                    <div class="col-md-14 mr-1">
+                        <div class="card-footer rounded" style="width: 109%;">
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <small class="text-muted">
+                                        دسته: {{ product.category.name }}
+                                    </small>
+                                </div>
+                                <div class="col-md-2 ">
+                                    <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary">جزئیات</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endif %}
+        {% endfor %}
+
+    </div>
+</center>
+
+
+
+<div class="col-md-7 offset-md-4">
+    {% if filter_list.has_previous %}
+    <a class="btn btn-outline-warning mb-4" href="?page=1{% if query %}&q={{query}}{% endif %}"><i
+            class="fas fa-angle-double-left"></i>اولین</a>
+    <a class="btn btn-outline-warning mb-4"
+        href="?page={{ filter_list.previous_page_number }}{% if query %}&q={{query}}{% endif %}"><i
+            class="fas fa-chevron-circle-left"></i>قبلی</a>
+    {% endif %}
+
+    {% for num in filter_list.paginator.page_range %}
+    {% if products.number == num %}
+    <a class="btn btn-dark mb-4" href="?page={{ num }}{% if query %}&q={{query}}{% endif %}">{{ num }}</a>
+    {% elif num > filter_list.number|add:'-3' and num < filter_list.number|add:'3' %}
+    <a class="btn btn-outline-secondary mb-4" href="?page={{ num }}{% if query %}&q={{query}}{% endif %}">{{ num }}</a>
+    {% endif %}
+    {% endfor %}
+
+    {% if filter_list.has_next %}
+    <a class="btn btn-outline-warning mb-4"
+        href="?page={{ filter_list.next_page_number }}{% if query %}&q={{query}}{% endif %}"><i
+            class="fas fa-chevron-circle-right"></i>بعدی</a>
+    <a class="btn btn-outline-warning mb-4"
+        href="?page={{ filter_list.paginator.num_pages }}{% if query %}&q={{query}}{% endif %}"><i
+            class="fas fa-angle-double-right"></i>اخرین</a>
+    {% endif %}
+</div>
+{% endblock %}

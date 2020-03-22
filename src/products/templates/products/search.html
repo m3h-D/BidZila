@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<div class="col-md-12">
+    {% if messages %}
+    {% for message in messages %}
+
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <center>
+            {{ message }}
+        </center>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
+
+
+
+<br>
+
+<div class="row">
+
+    <div class="btn-group col-md-6" role="group" aria-label="Basic example">
+        {% for cat in categories %}
+        <a href="{% url 'products:product_list_by_category' cat.slug %}"
+            style="height: 45px;{% if forloop.first %}border-top-left-radius: 50px;border-bottom-left-radius: 50px;{% endif %}"
+            class="btn btn-outline-secondary{% if request.path == categor %} btn-primary text-light {% endif %}">{{ cat.name }}</a>
+        {% endfor %}
+        <a href="{% url 'products:product_list' %}"
+            style="height: 45px;border-top-right-radius: 50px;border-bottom-right-radius: 50px"
+            class="btn btn-outline-danger">تمام
+            محصولات</a>
+    </div>
+
+    <div class="col-md-3 offset-md-3">
+        <form class="form-inline" method="GET" action="{% url 'products:search' %}">
+            <input class="form-control mr-sm-2 text-right rounded-pill" type="search" name="q" placeholder="جستجو"
+                value="{{ request.GET.q }}" aria-label="Search">
+            <!-- <button class="btn btn-outline-primary rounded-pill" type="submit"><i class="material-icons">
+                    search
+                </i></button> -->
+        </form>
+
+    </div>
+</div>
+
+
+<!-- {% if result %}
+<div>
+    <p class="text-right"><b>تعداد {{ result|length }} محصول پیدا شد </b></p>
+</div>
+{% else %}
+
+{% endif %} -->
+<hr>
+<center>
+    <div class="row justify-content-end">
+        {% if not result %}
+        <br>
+        <div class="col-md-5 offset-md-8">
+            <h2> !نتیجه ای پیدا نشد</h2>
+        </div>
+        {% else %}
+    </div>
+    <div class="container">
+        <div class="row justify-content-end">
+
+            {% for product in result %}
+            {% if product.stock == 0 %}
+
+            <div class="col-md-4 align-self-end">
+                <div class="card shadow-sm p-4 mb-4 bg-light" style="width: 330px; height:  26rem;">
+                    <a href="">
+                        <img src="{{ product.image.url }}" class="card-img-top border border-dark"
+                            style="height: 182px;" alt="name"></a>
+                    <div class="card-body" style="height: 200px;">
+                        <h5 class="card-title" style="height: 50px;">
+                            <center>{{ product.title }}</center>
+                        </h5>
+                        <p class="card-text text-right font-weight-bold">به تعداد کافی موجود نیست</p>
+                        <div class="col-md-14 mr-1">
+                            <div class="card-footer rounded" style="width: 109%;">
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <small class="text-muted">
+                                            دسته: {{ product.category.name }}
+                                        </small>
+                                    </div>
+                                    <div class="col-md-2 ">
+                                        <a href="{{ product.get_absolute_url }}" class="btn btn-secondary">جزئیات</a>
+                                    </div>
+                                    <div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% else %}
+
+            <!-- <div class="col-md-4 align-self-end">
+                    <div class="card shadow-lg p-4 mb-4 bg-white rounded" style="width: 330px; height:  28rem;">
+                        <a href="{{ product.get_absolute_url }}">
+                            <img src="{{ product.image.url }}" class="nav-item card-img-top border border-dark rounded-pill"
+                                style="height: 182px;" alt="{{product.title}}">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title" style="height: 50px;">
+                                <center>{{ product.title }}</center>
+                            </h5>
+                            <div class="row">
+        
+                                {% if product.event_start <= p and p <= product.event_end %}
+        
+                                <div class="col-md-11">
+                                    <p class="text-center card-text">در حال برگزاری</p>
+                                    <label class="card-text text-center btn btn-success rounded-pill mb-1" style="width: 110%">
+                                        {{ product.event_end }}</label>
+                                </div>
+                                {% elif p >= product.event_end %}
+                                <div class="col-md-11">
+                                    <p class="text-center card-text">اتمام حراجی</p>
+                                    <label class="card-text text-center btn btn-danger rounded-pill mb-1" style="width: 110%">
+                                        {{ product.event_end }}</label>
+                                </div>
+                                {% elif p <= product.event_start %}
+                                <div class="col-md-11">
+                                    <p class="text-center card-text">تا حراجی</p>
+                                    <label class="card-text text-center btn btn-secondary rounded-pill mb-1"
+                                        style="width: 110%">
+                                        {{ product.event_start }}</label>
+                                </div>
+                                {% endif %}
+        
+                            </div>
+        
+                            <div class="card-footer rounded-pill" style="width: 270px;padding-left: 25px;">
+        
+                                <div class="row justify-content-between">
+        
+                                    <small class="text-muted mt-2">
+                                        دسته: {{ product.category.name }}
+                                    </small>
+        
+                                    <a href="{{ product.get_absolute_url }}"
+                                        class="btn btn-outline-primary rounded-pill">جزئیات</a>
+        
+                                </div>
+        
+                            </div>
+        
+                        </div>
+                    </div>
+                </div> -->
+
+            <div class="card shadow-sm mr-4 mb-4" style="width: 330px;">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="..." style="height: 250px;">
+                <div class=" card-body pb-0">
+                    <h5 class="card-title text-center">{{ product.title}}</h5>
+                    <p class="card-text">
+                        <div class="row">
+
+                            {% if product.event == True %}
+
+                            <div class="col-md-11">
+                                <p class="text-center alter-warning mt-1 card-text">در حال برگزاری</p>
+                                <label class="card-text text-center btn btn-success rounded-pill" style="width: 110%">
+                                    ( ساعت ({{ product.event_start|time:"G:i"}})
+                                    درتاریخ ({{ product.event_start|date:"d-m-Y" }}</label>
+                            </div>
+                            {% elif product.ended == True %}
+                            <div class="col-md-11">
+                                <p class="text-center alter-warning mt-1 card-text">اتمام حراجی</p>
+                                <label class="card-text text-center btn btn-danger rounded-pill" style="width: 110%">
+                                    ( ساعت ({{ product.event_end|time:"G:i"}})
+                                    درتاریخ ({{ product.event_end|date:"d-m-Y" }}</label>
+                            </div>
+                            {% elif product.ended == False and product.event == False %}
+                            <div class="col-md-11">
+                                <p class="text-center alter-warning mt-1 card-text">زمان بزگزاری</p>
+                                <label class="card-text text-center btn btn-info rounded-pill" style="width: 110%">
+                                    ( ساعت ({{ product.event_start|time:"G:i"}})
+                                    درتاریخ ({{ product.event_start|date:"d-m-Y" }}</label>
+                            </div>
+                            {% endif %}
+
+                        </div>
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <div class="row justify-content-between">
+
+                        <small class="text-muted ml-5 mt-2">{{product.category.name}}</small>
+                        <a href="{{ product.get_absolute_url }}"
+                            class="btn btn-outline-primary mr-5 rounded-pill">جزئیات</a>
+                    </div>
+                </div>
+            </div>
+
+
+
+            {% endif %}
+            {% endfor %}
+        </div>
+
+
+        <div class="col-md-6 offset-md-4">
+            <br>
+            {% if products.has_previous %}
+            <a class="btn btn-outline-warning mb-4" href="?page=1"><i class="fas fa-angle-double-left"></i>اولین</a>
+            <a class="btn btn-outline-warning mb-4" href="?page={{ products.previous_page_number }}"><i
+                    class="fas fa-chevron-circle-left"></i>قبلی</a>
+            {% endif %}
+
+            {% for num in products.paginator.page_range %}
+            {% if products.number == num %}
+            <a class="btn btn-dark mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
+            <a class="btn btn-outline-secondary mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+            {% endfor %}
+
+            {% if products.has_next %}
+            <a class="btn btn-outline-warning mb-4" href="?page={{ products.next_page_number }}"><i
+                    class="fas fa-chevron-circle-right"></i>بعدی</a>
+            <a class="btn btn-outline-warning mb-4" href="?page={{ products.paginator.num_pages }}"><i
+                    class="fas fa-angle-double-right"></i>اخرین</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    {% endblock %}

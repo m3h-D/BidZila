@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br><br><br><br>
+<br>
+<div class="col-md-12">
+    {% if messages %}
+    {% for message in messages %}
+
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <center>
+            {{ message }}
+        </center>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+<h3 class="text-center bg-warning rounded-pill py-2 offset-md-4" style="width: 450px">کیف پول خود را شارژ کنید</h3>
+<br><br>
+<div class="offset-md-2 col-md-9">
+    <div class="card mb-3" style="height: 200px;">
+        <div class="row no-gutters">
+
+            <div class="col-md-8">
+                <div class="card-body">
+                    <div class="btn-group  offset-md-3 mb-4" role="group" aria-label="Basic example">
+
+                        <div class="input-group-text"
+                            style="height: 31px;border-top-left-radius: 50px;border-bottom-left-radius: 50px">تومان
+                        </div>
+                        <label class="btn btn-sm btn-success">{{ user.profile.wallet }}
+                        </label>
+
+
+                        <label class="btn btn-sm btn-dark"
+                            style="border-top-right-radius: 50px;border-bottom-right-radius: 50px;">موجودی</label>
+                    </div>
+                    <form action="." method="POST">{% csrf_token %}
+                        <div class="form-row align-items-center">
+                            <div class="col-md-8">
+                                <!-- <label class="sr-only" for="inlineFormInputGroup">مبلغ شارژ</label> -->
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">تومان</div>
+                                    </div>
+                                    <input type="number" class="form-control" name="price" id="id_price"
+                                        placeholder="{% if price > 0 %}مبلغ شارژ شما : {{ price }} {% else %}مبلغ مورد نظر را وارد کنید{% endif %}"
+                                        style="width: 150px">
+                                </div>
+                            </div>
+
+                            {% if price > 0 %}
+                            <button type="submit" class="btn btn-primary rounded-pill mb-2 mr-1">تغیر</button>
+
+
+                            <a href="{% url 'orders:bank3' %}" class="btn btn-warning  rounded-pill mb-2" role="button"
+                                aria-pressed="true">ثبت
+                                سفارش</a>
+                            {% else %}
+                            <button type="submit" class="btn btn-primary rounded-pill mb-2 mr-1">تایید</button>
+                            {% endif %}
+
+                        </div>
+                    </form>
+                    <small class="text-muted offset-md-2" dir="rtl">
+                        <li class="text-right">مبلغ وارد شده حداقل باید 3 رقمی باشد.</li>
+
+                    </small>
+                </div>
+
+            </div>
+            <div class="col-md-4">
+                <img src="https://cdn2.vectorstock.com/i/1000x1000/79/21/online-wallet-poster-with-smartphone-vector-19737921.jpg"
+                    class="card-img" alt="..." style="height: 200px">
+            </div>
+        </div>
+    </div>
+
+</div>
+<br><br><br><br><br>
+{% endblock %}

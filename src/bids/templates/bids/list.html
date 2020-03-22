@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br><br><br>
+<div class="row justify-content-end">
+    {% for bid in bids %}
+    <div class="card shadow-sm mr-4 mb-4" style="width: 330px;">
+        <img src="{{ bid.image.url }}" class="card-img-top" alt="..." style="height: 250px;">
+        <div class=" card-body pb-0">
+            <h5 class="card-title text-center">{{ bid.title }}</h5>
+            <p class="card-text">
+                {{ bid.description }}
+                <!-- <div class="row"> -->
+
+                <!-- {% if product.event == True %}
+
+                <div class="col-md-11">
+                    <p class="text-center alter-warning mt-1 card-text">در حال برگزاری</p>
+                    <label class="card-text text-center btn btn-success rounded-pill" style="width: 110%">
+                        ( ساعت ({{ product.event_start|time:"G:i"}})
+                        درتاریخ ({{ product.event_start|date:"d-m-Y" }}</label>
+                </div>
+                {% elif product.ended == True %}
+                <div class="col-md-11">
+                    <p class="text-center alter-warning mt-1 card-text">اتمام حراجی</p>
+                    <label class="card-text text-center btn btn-danger rounded-pill" style="width: 110%">
+                        ( ساعت ({{ product.event_end|time:"G:i"}})
+                        درتاریخ ({{ product.event_end|date:"d-m-Y" }}</label>
+                </div>
+                {% elif product.ended == False and product.event == False %}
+                <div class="col-md-11">
+                    <p class="text-center alter-warning mt-1 card-text">زمان بزگزاری</p>
+                    <label class="card-text text-center btn btn-info rounded-pill" style="width: 110%">
+                        ( ساعت ({{ product.event_start|time:"G:i"}})
+                        درتاریخ ({{ product.event_start|date:"d-m-Y" }}</label>
+                </div>
+                {% endif %} -->
+
+                <!-- </div> -->
+            </p>
+        </div>
+        <div class="card-footer">
+            <div class="row justify-content-between">
+
+                <label class="btn btn-sm btn-warning rounded-pill"> قیمت : {{bid.price}} تومان </label>
+                <form class="" action="{% url 'cart:add_to_bid_cart' bid.id %}" method="post">
+                    {% csrf_token %}
+                    <input class="col-md-0" type="hidden" name="quantity" value="1" min="1" max="20" required=""
+                        id="id_quantity">
+                    <input class="col-md-0" type="hidden" name="update" value="False" id="id_update">
+
+
+                    <button type="submit" class="btn btn-sm btn-outline-primary rounded-pill"><i class="material-icons">
+                            add_shopping_cart
+                        </i> افزودن به
+                        سبد خرید</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+{% endblock %}
